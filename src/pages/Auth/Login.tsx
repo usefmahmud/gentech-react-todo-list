@@ -1,7 +1,7 @@
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import Input from '../components/ui/Input'
+import Input from '../../components/ui/Input'
 import toast from 'react-hot-toast'
 
 type IFormInputs = {
@@ -67,7 +67,7 @@ const Login = () => {
                 <Input 
                   {...field}
                   type='password'
-                  placeholder='Enter your email'
+                  placeholder='Enter your password'
 
                   error={!!errors.password}
                   errorMessage={errors.password?.message}
