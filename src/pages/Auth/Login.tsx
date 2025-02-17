@@ -1,18 +1,13 @@
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import Input from '../../components/ui/Input'
 import toast from 'react-hot-toast'
+import { loginFormSchema } from '../../schemas/auth'
 
 type IFormInputs = {
   email: string,
   password: string
 }
-
-const formSchema = yup.object().shape({
-  email: yup.string().required('Email is required').email('Invalid email format'),
-  password: yup.string().required('Password is required').min(8, 'Password must be at least 8 chars').required('Password is required')
-})
 
 const Login = () => {
   const {
@@ -23,7 +18,7 @@ const Login = () => {
       isSubmitting
     }
   } = useForm<IFormInputs>({
-    resolver: yupResolver(formSchema)
+    resolver: yupResolver(loginFormSchema)
   })
 
   const onSubmit = async (data: IFormInputs) => {

@@ -1,8 +1,8 @@
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import Input from '../../components/ui/Input'
 import toast from 'react-hot-toast'
+import { signupFormSchema } from '../../schemas/auth'
 
 type IFormInputs = {
   first_name: string
@@ -11,33 +11,6 @@ type IFormInputs = {
   password: string
   c_password: string
 }
-
-const formSchema = yup.object().shape({
-  first_name: yup.string()
-    .required('First name is required'),
-  last_name: yup.string()
-    .required('Last name is required'),
-  email: yup.string()
-    .email('Invalid email format')
-    .required('Email is required'),
-  password: yup.string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(12, 'Password must be at most 12 characters')
-    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .matches(/\d/, 'Password must contain at least one number')
-    .matches(/[^a-zA-Z0-9]/, 'Password must contain at least one special symbol')
-    .required('Password is required'),
-  c_password: yup.string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(12, 'Password must be at most 12 characters')
-    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .matches(/\d/, 'Password must contain at least one number')
-    .matches(/[^a-zA-Z0-9]/, 'Password must contain at least one special symbol')
-    .oneOf([yup.ref('password')], 'Passwords don\'t match')
-    .required('Password confirmation is required')
-})
 
 const Signup = () => {
   const {
@@ -48,7 +21,7 @@ const Signup = () => {
       isSubmitting
     }
   } = useForm<IFormInputs>({
-    resolver: yupResolver(formSchema)
+    resolver: yupResolver(signupFormSchema)
   })
 
   const onSubmit = async (data: IFormInputs) => {
