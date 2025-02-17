@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 
-import Login from './pages/Login'
+import Login from './pages/Auth/Login'
+import Signup from './pages/Auth/Signup'
 
 import NotFound from './pages/NotFound'
 
@@ -16,6 +17,7 @@ const App = () => {
         </Route>
 
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
 
         <Route path='*' element={<NotFound />} />
       </Routes>
