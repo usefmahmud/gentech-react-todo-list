@@ -1,8 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+
 @import "tailwindcss";
 
 @theme {
-  --color-gunmetal: #302742;
-  --color-gainsboro: #dbded8;
-  --color-blood-orange: #cf071c;
-  --color-grullo: #b19f82;
+  --color-primary-bg: #302742;
+  --color-secondary-bg: #3E2D54;
+
+  --color-primary-fg: #BB86FC;
+  
+  --color-secondary-text: #94A3B8;
+  --color-border: #555555;
+
+  --font-deca: 'Lexend Deca';
 }
