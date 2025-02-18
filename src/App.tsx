@@ -7,12 +7,15 @@ import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
 
 import NotFound from './pages/NotFound'
+import Landing from './pages/Landing'
 
 const App = () => {
+  const isAuthenticated = false
+  
   return (
     <div className='h-dvh bg-primary-bg text-white font-deca'>
       <Routes>
-        <Route path='/' element={<Home />}>
+        <Route path='/' element={isAuthenticated ? <Home /> : <Landing />}>
           <Route index element={<Dashboard />} />
         </Route>
 
