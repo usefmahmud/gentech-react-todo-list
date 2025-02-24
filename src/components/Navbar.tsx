@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import Logo from '../assets/logo_dark.svg'
+import Logo from '../assets/imgs/logo_dark.svg'
 
 const Navbar = () => {
   return (
