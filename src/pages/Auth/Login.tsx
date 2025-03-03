@@ -3,8 +3,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Input from '../../components/ui/Input'
 import { loginFormSchema } from '../../schemas/auth'
 import { useAuth } from '../../context/AuthContext'
-import { useEffect, useLayoutEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { CgSpinnerTwo } from 'react-icons/cg'
 
 type IFormInputs = {
@@ -25,7 +25,6 @@ const Login = () => {
   })
 
   const { login, isAuthenticated } = useAuth()
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(true); // Track initialization state
 
   useEffect(() => {
