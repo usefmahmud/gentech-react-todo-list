@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Input from '../../components/ui/Input'
 import toast from 'react-hot-toast'
 import { signupFormSchema } from '../../schemas/auth'
+import { useAuth } from '../../context/AuthContext'
 
 type IFormInputs = {
   first_name: string
@@ -24,11 +25,11 @@ const Signup = () => {
     resolver: yupResolver(signupFormSchema)
   })
 
+  const { register } = useAuth()
+
   const onSubmit = async (data: IFormInputs) => {
-    console.log(data)
-    toast.success('Signed up successfully', {
-      duration: 3000
-    })
+    const { c_password, ...registerFields } = data
+    register(registerFields)
   }
 
   return (

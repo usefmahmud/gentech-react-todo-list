@@ -8,12 +8,14 @@ import Signup from './pages/Auth/Signup'
 
 import NotFound from './pages/NotFound'
 import Landing from './pages/Landing'
+import { useAuth } from './context/AuthContext'
 
 const App = () => {
-  const isAuthenticated = false
+  const { isAuthenticated, user } = useAuth()
   
   return (
     <div className='h-dvh bg-primary-bg text-white font-deca'>
+      {isAuthenticated ? 'y' : 'n'}
       <Routes>
         <Route path='/' element={isAuthenticated ? <Home /> : <Landing />}>
           <Route index element={<Dashboard />} />

@@ -1,8 +1,8 @@
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Input from '../../components/ui/Input'
-import toast from 'react-hot-toast'
 import { loginFormSchema } from '../../schemas/auth'
+import { useAuth } from '../../context/AuthContext'
 
 type IFormInputs = {
   email: string,
@@ -21,11 +21,10 @@ const Login = () => {
     resolver: yupResolver(loginFormSchema)
   })
 
+  const { login } = useAuth()
+
   const onSubmit = async (data: IFormInputs) => {
-    console.log(data)
-    toast.success('Logged in successfully', {
-      duration: 3000
-    })
+    // login(data)
   }
 
   return (
