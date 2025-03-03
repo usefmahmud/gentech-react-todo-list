@@ -3,6 +3,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Input from '../../components/ui/Input'
 import { loginFormSchema } from '../../schemas/auth'
 import { useAuth } from '../../context/AuthContext'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { CgSpinnerTwo } from 'react-icons/cg'
 
 type IFormInputs = {
   email: string,
@@ -21,10 +24,31 @@ const Login = () => {
     resolver: yupResolver(loginFormSchema)
   })
 
-  const { login } = useAuth()
+  const { login, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true); // Track initialization state
+
+  useEffect(() => {
+    // Simulate checking authentication status
+    setTimeout(() => {
+      setLoading(false);
+    }, 500); // Adjust delay based on real authentication check time
+  }, []);
 
   const onSubmit = async (data: IFormInputs) => {
-    // login(data)
+    return await login(data)
+  }
+
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <CgSpinnerTwo className="animate-spin text-4xl" />
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -72,10 +96,11 @@ const Login = () => {
 
           <div className=''>
             <button 
-              className='w-full bg-primary-fg cursor-pointer py-2.5 text-lg font-medium shadow-lg rounded-lg active:scale-98 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none disabled:bg-[]'
+              className='w-full bg-primary-fg flex justify-center items-center cursor-pointer py-2.5 text-lg font-medium shadow-lg rounded-lg active:scale-98 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none disabled:bg-[]'
               disabled={!!isSubmitting}
             >
               Login
+              { isSubmitting && <CgSpinnerTwo className='animate-spin ml-2 text-xl' /> }
             </button>
           </div>
         </form>
