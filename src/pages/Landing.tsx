@@ -12,18 +12,29 @@ const Landing = () => {
       return
     }
 
-    annotationGroup([annotate(titleFirst.current, {
+    const firstAnimation = annotate(titleFirst.current, {
       type: 'circle',
       color: '#BB86FC',
       animationDuration: 600,
-      padding: 7
-    }), annotate(titleSecond.current, {
+      strokeWidth: 4
+    })
+    const secondAnimation = annotate(titleSecond.current, {
       type: 'underline',
       color: '#BB86FC',
       animationDuration: 600,
       iterations: 3,
-      
-    })]).show()
+      strokeWidth: 5
+    })
+
+    const annotations = annotationGroup([firstAnimation, secondAnimation])
+    const interval = setInterval(() => {
+      annotations.hide()
+      setTimeout(() => {
+      annotations.show()
+      }, 100)
+    }, 2000)
+
+    return () => clearInterval(interval)
   }, [])
   
   return (
