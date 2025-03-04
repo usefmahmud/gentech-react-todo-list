@@ -18,8 +18,16 @@ interface ThemeProviderProps {
   children: React.ReactNode
 }
 
+type THEME = 'dark' | 'light'
+
+const getTheme = (): THEME => {
+  const systemPreference = window.matchMedia('(prefers-color-schema: dark').matches ? 'dark' : 'light'
+    
+  return localStorage.getItem('theme') as THEME || systemPreference
+}
+
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<'dark' | 'light'>(localStorage.getItem('theme') as ('dark' | 'light') || 'dark')
+  const [theme, setTheme] = useState<THEME>(getTheme())
 
   const toggleTheme = () => {
     setTheme(curr => curr === 'dark' ? 'light' : 'dark')
