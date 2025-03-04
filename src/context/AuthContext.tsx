@@ -28,7 +28,7 @@ const AuthContext = createContext<AuthContextType | null>(null)
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if(!context){
-    throw new Error('Error in Theme Context')
+    throw new Error('Error in Auth Context')
   }
   return context
 }
@@ -52,7 +52,10 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
         const decodedData: {
           user: User
         } = jwtDecode(accessToken)
-        setCookie('token', accessToken)
+        setCookie('token', accessToken, {
+          sameSite: 'strict',
+          path: '/'
+        })
         setUser(decodedData.user)
 
         toast.success(response?.data?.message)
@@ -102,7 +105,9 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
           setUser(decodedData.user)
         } catch (err) {
           console.error('failed with token decoding', err)
-          removeCookie('token')
+          removeCookie('token', {
+            path: '/'
+          })
         }
       }
     }
@@ -110,13 +115,15 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
     checkAuth()
   }, [])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const tokenInterceptor = api.interceptors.request.use((config) => {
       config.headers.Authorization = token ? `Bearer ${token}` : config.headers.Authorization
       return config
     })
 
-    return api.interceptors.request.eject(tokenInterceptor)
+    return () => {
+      api.interceptors.request.eject(tokenInterceptor)
+    }
   }, [token])
 
   return (
