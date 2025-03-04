@@ -8,7 +8,7 @@ const Home = () => {
         <div className='h-full'>
           <Sidebar />
         </div>
-        <div>
+        <div className='flex-1'>
           <Outlet />
         </div>
       </div>
