@@ -15,13 +15,13 @@ const Landing = () => {
     const firstAnimation = annotate(titleFirst.current, {
       type: 'circle',
       color: '#BB86FC',
-      animationDuration: 600,
+      animationDuration: 800,
       strokeWidth: 4
     })
     const secondAnimation = annotate(titleSecond.current, {
       type: 'underline',
       color: '#BB86FC',
-      animationDuration: 600,
+      animationDuration: 800,
       iterations: 3,
       strokeWidth: 5
     })
