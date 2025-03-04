@@ -1,5 +1,5 @@
 
-const Dashboard = () => {
+const Todos = () => {
 
   return (
     <div>
@@ -8,4 +8,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Todos
