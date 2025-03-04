@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
 
-import Home from './pages/Home'
-import Dashboard from './pages/Dashboard'
+import Home from './pages/Home/Home'
+import Dashboard from './pages/Home/Todos'
+import Categories from './pages/Home/Categories'
 
 import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
@@ -20,6 +21,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={isAuthenticated ? <Home /> : <Landing />}>
           <Route index element={<Dashboard />} />
+          <Route path='/categories' element={<Categories />} />
         </Route>
 
         <Route path='/login' element={<Login />} />
