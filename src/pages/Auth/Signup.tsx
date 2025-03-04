@@ -4,6 +4,7 @@ import Input from '../../components/ui/Input'
 import { signupFormSchema } from '../../schemas/auth'
 import { useAuth } from '../../context/AuthContext'
 import { Navigate } from 'react-router-dom'
+import { CgSpinnerTwo } from 'react-icons/cg'
 
 type IFormInputs = {
   first_name: string
@@ -29,7 +30,7 @@ const Signup = () => {
 
   const onSubmit = async (data: IFormInputs) => {
     const { c_password, ...registerFields } = data
-    register(registerFields)
+    return register(registerFields)
   }
 
   if (isAuthenticated) {
@@ -136,10 +137,11 @@ const Signup = () => {
 
           <div className=''>
             <button 
-              className='w-full bg-primary-fg cursor-pointer py-2.5 text-lg font-medium shadow-lg rounded-lg active:scale-98 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none disabled:bg-[]'
+              className='w-full bg-primary-fg flex justify-center items-center cursor-pointer py-2.5 text-lg font-medium shadow-lg rounded-lg active:scale-98 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none disabled:bg-[]'
               disabled={!!isSubmitting}
             >
               Signup
+              { isSubmitting && <CgSpinnerTwo className='animate-spin ml-2 text-xl' /> }
             </button>
           </div>
         </form>

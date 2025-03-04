@@ -44,31 +44,41 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(['token'])
   
   const login = async (credentials: LoginCredentials): Promise<void> => {
-    const response = await api.post('/auth/login', credentials)
-    const { accessToken } = response?.data
-    console.log(accessToken)
-    
-    const decodedData: {
-      user: User
-    } = jwtDecode(accessToken)
-    setCookie('token', accessToken)
-    setUser(decodedData.user)
+    try{
+      const response = await api.post('/auth/login', credentials)
+      if(response?.data?.success){
+        const { accessToken } = response?.data?.data?.tokens
+      
+        const decodedData: {
+          user: User
+        } = jwtDecode(accessToken)
+        setCookie('token', accessToken)
+        setUser(decodedData.user)
+
+        toast.success(response?.data?.message)
+      }
+    } catch(err: any){
+      toast.error(err.response?.data?.message || 'Error while login')
+    }
   }
 
   const register = async (formData: RegisterFormFields): Promise<void> => {
-    await api.post(
-      '/auth/register',
-      formData
-    )
-    .then(() => {
-      toast.success('Signed up successfully!', {
-        duration: 3000
-      })
-      
-      setTimeout(() => {
-        navigate('/login')
-      }, 3000)
-    })
+    try {
+      const response = await api.post('/auth/register', formData)
+  
+      if (response?.status === 201 || response?.data?.success) {
+        toast.success(response?.data?.message)
+  
+        setTimeout(() => {
+          navigate('/login')
+        }, 1000)
+        return
+      }
+      toast.error(response?.data?.message)
+
+    } catch(err: any){
+      toast.error(err.response?.data?.message || 'Error while registering')
+    }
   }
 
   const logout = () => {
