@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { RegisterFormFields } from '../types'
 import { api } from '../services/api'
 import { useNavigate } from 'react-router-dom'
