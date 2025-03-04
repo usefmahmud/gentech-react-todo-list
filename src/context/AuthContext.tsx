@@ -79,21 +79,25 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
   }
 
   useEffect(() => {
-    const token_ = cookies.token
+    const checkAuth = async () => {
+      const token_ = cookies.token
     
-    if(token_){
-      setToken(token_)
-      try {
-        const decodedData: {
-          user: User
-        } = jwtDecode(token_)
-        console.log(decodedData.user)
-        setUser(decodedData.user)
-      } catch (err) {
-        console.error('failed with token decoding', err)
-        removeCookie('token')
+      if(token_){
+        setToken(token_)
+        try {
+          const decodedData: {
+            user: User
+          } = jwtDecode(token_)
+          console.log(decodedData.user)
+          setUser(decodedData.user)
+        } catch (err) {
+          console.error('failed with token decoding', err)
+          removeCookie('token')
+        }
       }
     }
+
+    checkAuth()
   }, [])
 
   useLayoutEffect(() => {
@@ -103,12 +107,6 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
     })
 
     return api.interceptors.request.eject(tokenInterceptor)
-  }, [token])
-
-  useLayoutEffect(() => {
-    if(token){
-      
-    }
   }, [token])
 
   return (

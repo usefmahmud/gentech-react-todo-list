@@ -3,7 +3,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Input from '../../components/ui/Input'
 import { loginFormSchema } from '../../schemas/auth'
 import { useAuth } from '../../context/AuthContext'
-import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { CgSpinnerTwo } from 'react-icons/cg'
 
@@ -25,25 +24,9 @@ const Login = () => {
   })
 
   const { login, isAuthenticated } = useAuth()
-  const [loading, setLoading] = useState(true); // Track initialization state
-
-  useEffect(() => {
-    // Simulate checking authentication status
-    setTimeout(() => {
-      setLoading(false);
-    }, 500); // Adjust delay based on real authentication check time
-  }, []);
 
   const onSubmit = async (data: IFormInputs) => {
     return await login(data)
-  }
-
-  if (loading) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <CgSpinnerTwo className="animate-spin text-4xl" />
-      </div>
-    );
   }
 
   if (isAuthenticated) {

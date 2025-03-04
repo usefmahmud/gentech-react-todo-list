@@ -3,8 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Input from '../../components/ui/Input'
 import { signupFormSchema } from '../../schemas/auth'
 import { useAuth } from '../../context/AuthContext'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 type IFormInputs = {
   first_name: string
@@ -27,18 +26,15 @@ const Signup = () => {
   })
 
   const { register, isAuthenticated } = useAuth()
-  const navigate = useNavigate()
 
   const onSubmit = async (data: IFormInputs) => {
     const { c_password, ...registerFields } = data
     register(registerFields)
   }
 
-  useEffect(() => {
-    if(isAuthenticated){
-      navigate('/')
-    }
-  }, [])
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="h-full flex items-center justify-center px-4">
