@@ -6,16 +6,19 @@ import App from './App.tsx'
 import './index.css'
 import { ThemeProvider } from './context/ThemeContext.tsx'
 import { AuthProvider } from './context/AuthContext.tsx'
+import { TodosProvider } from './context/TodosContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-          <Toaster 
-            position='bottom-right'
-          />
-          <App />
+          <TodosProvider>
+            <Toaster 
+              position='bottom-right'
+            />
+            <App />
+          </TodosProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

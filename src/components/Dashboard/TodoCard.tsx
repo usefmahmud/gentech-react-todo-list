@@ -2,11 +2,14 @@ import { useEffect, useState } from "react"
 import Checkbox from "../ui/Checkbox"
 import { Todo } from "../../types"
 import { Link } from "react-router-dom"
+import { useTodos } from "../../context/TodosContext"
 
-
-
-const TodoCard: React.FC<{ todo: Todo }> = ({
-  todo
+const TodoCard: React.FC<{ 
+  todo: Todo,
+  deleteTodo: (id: string) => void
+}> = ({
+  todo,
+  deleteTodo
 }) => {
   const [isChecked, setIsChecked] = useState(false)
 
@@ -30,8 +33,8 @@ const TodoCard: React.FC<{ todo: Todo }> = ({
         </div>
 
         <div className="flex items-center">
-          <Link to={`/categories/${todo.category.id}`} className="bg-primary-fg text-[14px] rounded-full px-2.5 py-0.5">
-            {todo.category.name}
+          <Link to={`/categories/${todo?.category?.id}`} className="bg-primary-fg text-[14px] rounded-full px-2.5 py-0.5">
+            {todo?.category?.name}
           </Link>
         </div>
       </div>
@@ -45,10 +48,15 @@ const TodoCard: React.FC<{ todo: Todo }> = ({
           {todo.date}
         </div>
         <div className="flex gap-3">
-          <button className="bg-primary-fg text-[16px] cursor-pointer px-3 py-1 rounded-md hover:bg-primary-fg/80 duration-100">
+          <button 
+            className="bg-primary-fg text-[16px] cursor-pointer px-3 py-1 rounded-md hover:bg-primary-fg/80 duration-100"
+          >
             Edit
           </button>
-          <button className="bg-danger text-[16px] cursor-pointer px-3 py-1 rounded-md hover:bg-danger/80 duration-100">
+          <button 
+            className="bg-danger text-[16px] cursor-pointer px-3 py-1 rounded-md hover:bg-danger/80 duration-100"
+            onClick={() => deleteTodo(todo.id)}
+          >
             Delete
           </button>
         </div>
