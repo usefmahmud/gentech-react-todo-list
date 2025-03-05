@@ -1,6 +1,6 @@
 const TodoCard = () => {
   return (
-    <div className='bg-green-500'>
+    <div className='bg-secondary-bg rounded-md shadow-md p-5'>
       MyCard
     </div>
   )
