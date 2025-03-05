@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import Checkbox from "../ui/Checkbox"
 import { Todo } from "../../types"
 import { Link } from "react-router-dom"
-import { useTodos } from "../../context/TodosContext"
 
 const TodoCard: React.FC<{ 
   todo: Todo,

@@ -1,7 +1,6 @@
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import { api } from "../services/api";
 import { Todo } from "../types";
-import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
 
 
