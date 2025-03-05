@@ -5,11 +5,11 @@ import { FiLayers } from "react-icons/fi"
 import { useAuth } from "../../context/AuthContext"
 
 const Sidebar = () => {
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
   return (
     <div className="h-full w-[300px] bg-secondary-bg shadow-md flex flex-col px-5 py-10">
       <div className="mb-6">
-        <div className="font-extrabold text-2xl">Hi, Yousef</div>
+        <div className="font-extrabold text-2xl">Hi, {user?.first_name}</div>
       </div>
       <div className="flex flex-col gap-5">
         <div className="">

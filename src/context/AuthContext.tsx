@@ -1,10 +1,8 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { RegisterFormFields } from '../types'
 import { api } from '../services/api'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { useCookies } from 'react-cookie'
-import { jwtDecode } from 'jwt-decode'
 
 type LoginCredentials = {
   email: string
@@ -13,15 +11,18 @@ type LoginCredentials = {
 
 type User = {
   id: string
+  first_name: string
+  last_name: string
+  email: string
 }
 
 interface AuthContextType {
   user: User | null
   isAuthenticated: boolean
-  token: string
+  token: string | null
   login: (credentials: LoginCredentials) => Promise<void>
   register: (formData: RegisterFormFields) => Promise<void>
-  logout: () => void
+  logout: () => Promise<void>
 }
 const AuthContext = createContext<AuthContextType | null>(null)
 
@@ -38,33 +39,10 @@ type AuthConotextProps = {
 }
 export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState<string | null>('')
 
   const navigate = useNavigate()
-  const [cookies, setCookie, removeCookie] = useCookies(['token'])
   
-  const login = async (credentials: LoginCredentials): Promise<void> => {
-    try{
-      const response = await api.post('/auth/login', credentials)
-      if(response?.data?.success){
-        const { accessToken } = response?.data?.data?.tokens
-      
-        const decodedData: {
-          user: User
-        } = jwtDecode(accessToken)
-        setCookie('token', accessToken, {
-          sameSite: 'strict',
-          path: '/'
-        })
-        setUser(decodedData.user)
-
-        toast.success(response?.data?.message)
-      }
-    } catch(err: any){
-      toast.error(err.response?.data?.message || 'Error while login')
-    }
-  }
-
   const register = async (formData: RegisterFormFields): Promise<void> => {
     try {
       const response = await api.post('/auth/register', formData)
@@ -84,47 +62,106 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
     }
   }
 
-  const logout = () => {
-    setUser(null)
-    setToken('')
-    removeCookie('token')
-    navigate('/')
+  const login = async (credentials: LoginCredentials): Promise<void> => {
+    try{
+      const response = await api.post('/auth/login', credentials)
+      if(response?.data?.success){
+        const { accessToken } = response?.data?.data?.tokens
+        const userInfo = response?.data?.data.user
+
+        setUser(userInfo)
+        setToken(accessToken)
+
+        toast.success(response?.data?.message)
+        navigate('/')
+      }
+    } catch(err: any){
+      toast.error(err.response?.data?.message || 'Error while login')
+    }
+  }
+
+  const logout = async () => {
+    try{
+      await api.post('/auth/logout')
+
+      setUser(null);
+      setToken(null);
+      api.defaults.headers.common['Authorization'] = ''
+      toast.success('Logged out successfully')
+      navigate('/login')
+  }catch (err) {
+      console.error('Error during logout:', err)
+      toast.error('Error during logout')
+
+      setUser(null);
+      setToken(null);
+      api.defaults.headers.common['Authorization'] = ''
+      navigate('/login')
+  }
   }
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const token_ = cookies.token
-    
-      if(token_){
-        setToken(token_)
-        try {
-          const decodedData: {
-            user: User
-          } = jwtDecode(token_)
-          console.log(decodedData.user)
-          setUser(decodedData.user)
-        } catch (err) {
-          console.error('failed with token decoding', err)
-          removeCookie('token', {
-            path: '/'
-          })
-        }
+    const authInterceptor = api.interceptors.request.use((config) => {
+      if(token){
+        config.headers.Authorization = `Bearer ${token}`
       }
-    }
 
-    checkAuth()
-  }, [])
-
-  useEffect(() => {
-    const tokenInterceptor = api.interceptors.request.use((config) => {
-      config.headers.Authorization = token ? `Bearer ${token}` : config.headers.Authorization
       return config
     })
 
     return () => {
-      api.interceptors.request.eject(tokenInterceptor)
+      api.interceptors.request.eject(authInterceptor)
     }
   }, [token])
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const response = await api.get('/auth/me')
+        const { first_name, last_name, email, _id } = response.data?.data
+        setUser({
+          first_name,
+          last_name,
+          email,
+          id: _id
+        })
+      } catch (err: any) {
+        console.error('Error fetching current user')
+      }
+    }
+    
+    getCurrentUser()
+  }, [token])
+
+  useLayoutEffect(() => {
+    const refreshInterceptor = api.interceptors.response.use(
+      response => response,
+      async (err) => {
+        const Request = err.config
+
+        if(err.response?.status === 401 && err.response.data?.message === 'Authorization header missing' ){
+          try {
+            const response = await api.post('/auth/refresh-token')
+            const { accessToken } = response.data?.data
+            setToken(accessToken)
+
+            if(Request){
+              Request.headers.Authorization = `Bearer ${accessToken}`
+              await api(Request)
+            }
+          } catch(err){
+            setToken(null)
+          }
+        } 
+
+        return Promise.reject(err)
+      }
+    )
+
+    return () => {
+      api.interceptors.response.eject(refreshInterceptor)
+    }
+  }, [])
 
   return (
     <AuthContext.Provider value={{ 
