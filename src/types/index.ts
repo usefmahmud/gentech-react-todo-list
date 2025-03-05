@@ -4,3 +4,17 @@ export type RegisterFormFields = {
   password: string
   email: string
 }
+
+export interface category {
+  id: string
+  name: string
+}
+
+export interface Todo {
+  id: string
+  title: string
+  description: string
+  category: category
+  date: string
+  is_completed: boolean
+}
