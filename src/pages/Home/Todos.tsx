@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import TodosList from "../../components/Dashboard/TodosList"
 import Modal from "../../components/ui/Modal"
 import NewTodoForm from "../../components/Dashboard/NewTodoForm"
 import { CiGrid41, CiGrid2H } from "react-icons/ci"
 import { useTodosLayout } from "../../hooks/useTodosLayout"
+import { useParams } from "react-router-dom"
+import { useTodos } from "../../context/TodosContext"
 
 const Todos = () => {
   const [todosLayout, setTodosLayout] = useTodosLayout()
@@ -11,12 +13,22 @@ const Todos = () => {
 
   const [filterTodoTitle, setFilterTodoTitle] = useState('')
 
+  const { id } = useParams()
+  const { retriveTodos, retriveCategories, getCategory } = useTodos()
+
+  useEffect(() => { 
+    retriveTodos()
+    retriveCategories()
+  }, [])
+
   return (
     <div className="px-15 py-10">
       <div className="flex flex-col">
         <div className="flex justify-between items-center mb-15">
           <h2 className="text-4xl font-bold">
-            Todos
+            {
+              id ? `Category: ${getCategory(id)?.name}` : 'Todos'
+            }
           </h2>
           <div>
             <button
@@ -57,6 +69,7 @@ const Todos = () => {
           <TodosList 
             isGridView={todosLayout === 'grid'}
             filterTodoTitle={filterTodoTitle}
+            categoryId={id}
           />
         </div>
 

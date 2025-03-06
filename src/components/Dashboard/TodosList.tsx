@@ -5,17 +5,15 @@ import { useTodos } from "../../context/TodosContext"
 interface TodoListProps {
   isGridView: boolean
   filterTodoTitle: string
+  categoryId: string | undefined
 }
 
 const TodosList: React.FC<TodoListProps> = ({
   isGridView,
-  filterTodoTitle
+  filterTodoTitle,
+  categoryId
 }) => {
   const { todos, isTodosLoading, retriveTodos, deleteTodo } = useTodos()
-
-  useEffect(() => {
-    retriveTodos()
-  }, [])
 
   return (
     <div
@@ -24,6 +22,7 @@ const TodosList: React.FC<TodoListProps> = ({
       {
         isTodosLoading ? "Loading..." :
         todos
+          .filter(todo => categoryId ? todo.category.id === categoryId : true)
           .filter(todo => todo.title.toLowerCase().includes(filterTodoTitle.toLowerCase()) || todo.description.toLowerCase().includes(filterTodoTitle.toLowerCase()))
           .map(todo => (
             <TodoCard 

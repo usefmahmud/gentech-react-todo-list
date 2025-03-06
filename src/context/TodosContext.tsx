@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useState } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { api } from "../services/api";
 import { category, Todo } from "../types";
 import toast from "react-hot-toast";
@@ -19,7 +19,7 @@ interface TodosContextType {
 
   categories: category[]
   retriveCategories: () => Promise<void>
-  getCategory: (id: string) => Promise<category>
+  getCategory: (id: string) => category
   createCategory: (category: {
     name: string
   }) => Promise<void>
@@ -214,8 +214,8 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
         setIsCategoriesLoading(false)
       }
     },
-    getCategory: async (id: string) => {
-      return initialCategories.categories.find(category => category.id === id) as category  
+    getCategory: (id: string) => {
+      return categoriesState.categories.find((category: category) => category.id === id) as category  
     },
     createCategory: async (category: {
       name: string

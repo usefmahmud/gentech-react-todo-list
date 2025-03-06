@@ -22,6 +22,7 @@ const App = () => {
         <Route path='/' element={isAuthenticated ? <Home /> : <Landing />}>
           <Route index element={<Todos />} />
           <Route path='/categories' element={<Categories />} />
+          <Route path='/categories/:id' element={<Todos />} />
         </Route>
 
         <Route path='/login' element={<Login />} />
