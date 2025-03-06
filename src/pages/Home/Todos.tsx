@@ -47,6 +47,7 @@ const Todos = () => {
 
         {
           isModalOpen && <Modal 
+          className="w-full flex justify-center"
           onClose={() => setIsModalOpen(false)}
           children={
             <NewTodoForm 

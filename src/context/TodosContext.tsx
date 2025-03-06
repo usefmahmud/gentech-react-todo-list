@@ -12,7 +12,7 @@ interface TodosContextType {
     title: string
     description: string
     category: string
-  }) => Promise<void>
+  }) => Promise<boolean>
   updateTodo: (todo: Todo) => Promise<void>
   deleteTodo: (id: string) => Promise<void>
   isTodosLoading: boolean
@@ -148,8 +148,34 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
       description: string
       category: string
     }) => {
-      const response = await api.post('/todos', todo)
-      todosDispatch({ type: 'ADD_TODO', payload: response.data })
+      try {
+        const response = await api.post('/todos', todo)
+        if(response.status === 201) {
+          const todo = response.data?.data 
+          todosDispatch({ 
+            type: 'ADD_TODO', 
+            payload: {
+              id: todo._id,
+              title: todo.title,
+              description: todo.description,
+              is_completed: todo.isCompleted,
+              date: todo.createdAt,
+              category: {
+                id: todo.category._id,
+                name: todo.category.name
+              }
+            }
+          })
+          toast.success(response.data?.message)
+          return true
+        }
+
+        toast.error(response.data?.message || 'Error while creating task')
+      } catch(err: any){
+        console.error('Error while creating task', err)
+        toast.error(err.response.data?.message || 'Error while creating task')
+      }
+      return false
     },
     updateTodo: async (todo: Todo) => {
       const response = await api.put(`/todos/${todo.id}`, todo)
@@ -176,7 +202,6 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
       setIsCategoriesLoading(true)
       try{
         const response = await api.get('/categories')
-        console.log(response.data)
         if(response.status === 200 && response.data?.success){
           categoriesDispatch({ type: 'SET_CATEGORIES', payload: response.data?.data })
           return

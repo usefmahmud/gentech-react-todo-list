@@ -20,7 +20,6 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
 }) => {
   const { createTodo } = useTodos()
   const {
-    register,
     control,
     handleSubmit,
     formState: {
@@ -29,27 +28,74 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
   } = useForm<NewTodoFormInputs>({
     resolver: yupResolver(todoSchema)
   })
+
+  const onSubmit = async (data: NewTodoFormInputs) => {
+    const responseStatus = await createTodo(data)
+    if(responseStatus) {
+      onClose()
+    }
+  }
+
   return (
-    <div className='bg-secondary-bg p-5 rounded-md shadow-lg'>
-      <div>
-        <h2>New Todo</h2>
+    <div className='bg-secondary-bg p-7 rounded-md shadow-lg w-full max-w-lg'>
+      <div className='flex justify-center mb-4'>
+        <h2 className='text-2xl font-bold'>New Todo</h2>
       </div>
       <div>
-        <form>
-          <Controller 
-            name='title'
-            control={control}
-            render={({ field }) => (
-              <Input
-                type='text'
-                placeholder='Title'
-                error={!!errors.title}
-                errorMessage={errors.title?.message}
-                {...field}  
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className='flex flex-col gap-5'>
+            <div>
+              <Controller 
+                name='title'
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    type='text'
+                    placeholder='Title'
+                    error={!!errors.title}
+                    errorMessage={errors.title?.message}
+                    {...field}  
+                  />
+                )}
               />
-            )}
-          />
-          <ComboBox />
+            </div>
+
+            <div>
+              <Controller 
+                name='description'
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    type='textarea'
+                    placeholder='Description'
+                    error={!!errors.description}
+                    errorMessage={errors.description?.message}
+                    {...field} 
+                  />
+                )}
+              />
+            </div>
+
+            <div>
+              <Controller 
+                name='category'
+                control={control}
+                render={({ field }) => <ComboBox {...field} />}
+              />
+
+              {
+                errors.category && (
+                  <span className="text-[14px] text-red-400 pl-3">{errors.category?.message}</span>
+                )
+              }
+            </div>
+
+            <div className='flex justify-center'>
+              <button className='bg-primary-fg text-xl py-2 rounded-md w-[60%] cursor-pointer active:scale-98 duration-100'>
+                create
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>

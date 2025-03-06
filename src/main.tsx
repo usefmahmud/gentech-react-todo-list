@@ -16,6 +16,9 @@ createRoot(document.getElementById('root')!).render(
           <TodosProvider>
             <Toaster 
               position='bottom-right'
+              containerStyle={{
+                zIndex: 10001
+              }}
             />
             <App />
           </TodosProvider>
