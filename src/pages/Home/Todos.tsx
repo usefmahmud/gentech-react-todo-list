@@ -1,9 +1,14 @@
+import { useState } from "react"
 import TodosList from "../../components/Dashboard/TodosList"
+import Modal from "../../components/ui/Modal"
+import NewTodoForm from "../../components/Dashboard/NewTodoForm"
 import { CiGrid41, CiGrid2H } from "react-icons/ci"
 import { useTodosLayout } from "../../hooks/useTodosLayout"
 
 const Todos = () => {
   const [todosLayout, setTodosLayout] = useTodosLayout()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <div className="px-15 py-10">
       <div className="flex flex-col">
@@ -14,6 +19,7 @@ const Todos = () => {
           <div>
             <button
               className="bg-secondary-bg text-[18px] font-semibold px-5 py-2 rounded-md cursor-pointer hover:bg-secondary-bg/80 transition duration-150 active:scale-98"
+              onClick={() => setIsModalOpen(true)}
             >
               New Todo
             </button>
@@ -38,6 +44,17 @@ const Todos = () => {
             isGridView={todosLayout === 'grid'}
           />
         </div>
+
+        {
+          isModalOpen && <Modal 
+          onClose={() => setIsModalOpen(false)}
+          children={
+            <NewTodoForm 
+              onClose={() => setIsModalOpen(false)}
+            />
+          }
+        />
+        }
       </div>
     </div>
   )

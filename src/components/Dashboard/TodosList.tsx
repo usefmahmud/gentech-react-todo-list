@@ -9,7 +9,7 @@ interface TodoListProps {
 const TodosList: React.FC<TodoListProps> = ({
   isGridView
 }) => {
-  const { todos, isLoading, retriveTodos, deleteTodo } = useTodos()
+  const { todos, isTodosLoading, retriveTodos, deleteTodo } = useTodos()
 
   useEffect(() => {
     retriveTodos()
@@ -20,7 +20,7 @@ const TodosList: React.FC<TodoListProps> = ({
       className={`gap-4 ${isGridView ? 'grid grid-cols-3' : 'flex flex-col'}`}
     >
       {
-        isLoading ? "Loading..." :
+        isTodosLoading ? "Loading..." :
         todos.map(todo => (
           <TodoCard 
             key={todo?.id}
