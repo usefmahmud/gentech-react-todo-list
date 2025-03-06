@@ -139,7 +139,7 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
       async (err) => {
         const Request = err.config
 
-        if(err.response?.status === 401 && err.response.data?.message === 'Authorization header missing' ){
+        if(err.response?.status === 401){
           try {
             const response = await api.post('/auth/refresh-token')
             const { accessToken } = response.data?.data
