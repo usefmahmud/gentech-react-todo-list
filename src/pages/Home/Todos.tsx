@@ -9,6 +9,8 @@ const Todos = () => {
   const [todosLayout, setTodosLayout] = useTodosLayout()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const [filterTodoTitle, setFilterTodoTitle] = useState('')
+
   return (
     <div className="px-15 py-10">
       <div className="flex flex-col">
@@ -27,7 +29,19 @@ const Todos = () => {
         </div>
 
         <div className="flex flex-col">
-          <div className='py-2 flex justify-end'>
+          <div className='py-2 flex justify-between items-center mb-3'>
+            <div>
+              <div>
+                <input 
+                  type="text" 
+                  className="border-2 border-border bg-secondary-bg/30 text-[16px] font-normal px-3 py-2 rounded-full shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
+                  placeholder="Search Todos"
+                  value={filterTodoTitle}
+                  onChange={(e) => setFilterTodoTitle(e.target.value)}
+                />
+              </div>
+            </div>
+
             <div className="flex bg-secondary-bg rounded-full text-2xl shadow-md">
               <span 
                 className={`p-2 pl-3.5 rounded-l-full cursor-pointer transition duration-100 hover:bg-primary-bg/50 ${todosLayout === 'grid' ? 'shadow-inner bg-primary-bg/50' : ''}`}
@@ -42,6 +56,7 @@ const Todos = () => {
 
           <TodosList 
             isGridView={todosLayout === 'grid'}
+            filterTodoTitle={filterTodoTitle}
           />
         </div>
 
