@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 type LayoutType = 'grid' | 'list'
 
 export const useTodosLayout = () => {
-  const [isGridView, setIsGridView] = useState<boolean>(() => {
+  const [isGridView, setIsGridView] = useState(() => {
     const storedLayout = localStorage.getItem('layout') as LayoutType || 'grid'
     return storedLayout === 'grid' ? true : false
   })
@@ -15,7 +15,7 @@ export const useTodosLayout = () => {
   }, [isGridView])
 
   const setLayout = (layout: LayoutType) => {
-    setIsGridView(layout === 'grid' ? true : false)
+    setIsGridView(layout === 'grid')
   }
 
   return [(isGridView ? 'grid' : 'list') as LayoutType, setLayout] as const
