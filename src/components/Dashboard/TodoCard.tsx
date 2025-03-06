@@ -17,7 +17,9 @@ const TodoCard: React.FC<{
   }, [todo.is_completed])
 
   return (
-    <div className='bg-secondary-bg rounded-md shadow-md p-5 flex flex-col select-none cursor-pointer h-full'>
+    <div
+      className={`bg-secondary-bg rounded-md shadow-md p-5 flex flex-col select-none cursor-pointer h-full ${isChecked ? 'opacity-70 shadow-none text-white/80' : ''}`}
+    >
       <div className="flex justify-between">
         <div className="flex items-center">
           <div className="mr-3">
@@ -26,7 +28,9 @@ const TodoCard: React.FC<{
               setIsChecked={setIsChecked}
             />
           </div>
-          <div className="text-xl font-semibold overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[200px]">
+          <div 
+            className={`text-xl font-semibold overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[200px] ${isChecked ? 'line-through text-white/60' : ''}`}
+          >
             {todo.title}
           </div>
         </div>
