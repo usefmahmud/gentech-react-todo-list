@@ -48,7 +48,7 @@ const TodoCard: React.FC<{
 
       <div className="flex justify-between items-end mt-auto">
         <div className="text-[14px] text-white/40 font-medium">
-          {todo.date}
+          {new Date(todo.date).toISOString().split("T")[0]}
         </div>
         <div className="flex gap-3">
           <button 
