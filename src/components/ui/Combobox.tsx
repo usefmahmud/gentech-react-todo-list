@@ -26,7 +26,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   }, [])
 
   const filterOptions: category[] = useMemo(() => {
-    return categories.filter((category) => category.name.toLowerCase().includes(query.toLowerCase()))
+    return categories.filter((category) => category.name?.toLowerCase().includes(query.toLowerCase()))
   }, [categories, query])
 
   useEffect(() => {

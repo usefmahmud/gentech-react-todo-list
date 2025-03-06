@@ -221,7 +221,17 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
       name: string
     }) => {
       const response = await api.post('/categories', category)
-      return response.data
+      if(response.status === 201) {
+        categoriesDispatch({ 
+          type: 'ADD_CATEGORY', 
+          payload: {
+            id: response.data._id,
+            name: response.data.name
+          }
+        })
+        toast.success(response.data?.message)
+        return
+      }
     },
     updateCategory: async (category: category) => {
       const response = await api.put(`/categories/${category.id}`, category)
