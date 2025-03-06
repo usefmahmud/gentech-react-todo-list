@@ -1,7 +1,9 @@
 import TodosList from "../../components/Dashboard/TodosList"
+import { CiGrid41, CiGrid2H } from "react-icons/ci"
+import { useTodosLayout } from "../../hooks/useTodosLayout"
 
 const Todos = () => {
-
+  const [todosLayout, setTodosLayout] = useTodosLayout()
   return (
     <div className="px-15 py-10">
       <div className="flex flex-col">
@@ -18,8 +20,23 @@ const Todos = () => {
           </div>
         </div>
 
-        <div>
-          <TodosList />
+        <div className="flex flex-col">
+          <div className='py-2 flex justify-end'>
+            <div className="flex bg-secondary-bg rounded-full text-2xl shadow-md">
+              <span 
+                className={`p-2 pl-3.5 rounded-l-full cursor-pointer transition duration-100 hover:bg-primary-bg/50 ${todosLayout === 'grid' ? 'shadow-inner bg-primary-bg/50' : ''}`}
+                onClick={() => setTodosLayout('grid')}
+              ><CiGrid41 /></span>
+              <span 
+                className={`p-2 pr-3.5 rounded-r-full cursor-pointer transition duration-100 hover:bg-primary-bg/50 ${todosLayout === 'list' ? 'shadow-inner bg-primary-bg/50' : ''}`}
+                onClick={() => setTodosLayout('list')}
+              ><CiGrid2H /></span>
+            </div>
+          </div>
+
+          <TodosList 
+            isGridView={todosLayout === 'grid'}
+          />
         </div>
       </div>
     </div>
