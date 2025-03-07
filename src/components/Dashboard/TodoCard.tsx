@@ -3,6 +3,7 @@ import Checkbox from "../ui/Checkbox"
 import { Todo } from "../../types"
 import { Link } from "react-router-dom"
 import { useTodos } from "../../context/TodosContext"
+import { useTranslation } from "react-i18next"
 
 const TodoCard: React.FC<{ 
   todo: Todo,
@@ -15,6 +16,10 @@ const TodoCard: React.FC<{
 }) => {
   const [isChecked, setIsChecked_] = useState(false)
   const { completeTodo } = useTodos()
+
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'todos.card'
+  })
 
   useEffect(() => {
     setIsChecked_(todo.is_completed)
@@ -69,13 +74,13 @@ const TodoCard: React.FC<{
           <button 
             className="bg-primary-fg text-[16px] cursor-pointer px-3 py-1 rounded-md hover:bg-primary-fg/80 duration-100"
           >
-            Edit
+            {t('edit')}
           </button>
           <button 
             className="bg-danger text-[16px] cursor-pointer px-3 py-1 rounded-md hover:bg-danger/80 duration-100"
             onClick={() => deleteTodo(todo.id)}
           >
-            Delete
+            {t('delete')} 
           </button>
         </div>
       </div>

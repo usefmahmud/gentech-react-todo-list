@@ -8,6 +8,8 @@ import { ThemeProvider } from './context/ThemeContext.tsx'
 import { AuthProvider } from './context/AuthContext.tsx'
 import { TodosProvider } from './context/TodosContext.tsx'
 
+import './utils/i18n.ts'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>

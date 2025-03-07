@@ -5,6 +5,7 @@ import { signupFormSchema } from '../../schemas/auth'
 import { useAuth } from '../../context/AuthContext'
 import { Link, Navigate } from 'react-router-dom'
 import { CgSpinnerTwo } from 'react-icons/cg'
+import { useTranslation } from 'react-i18next'
 
 type IFormInputs = {
   first_name: string
@@ -27,6 +28,9 @@ const Signup = () => {
   })
 
   const { register, isAuthenticated } = useAuth()
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'auth.signup'
+  })
 
   const onSubmit = async (data: IFormInputs) => {
     const { c_password, ...registerFields } = data
@@ -41,13 +45,13 @@ const Signup = () => {
     <div className="h-full flex items-center justify-center px-4">
       <div className="flex flex-col py-10 px-6 sm:px-10 rounded-lg shadow-md bg-secondary-bg w-full max-w-md md:max-w-fit">
         <div className="pb-5 text-center">
-          <h1 className="text-3xl font-bold">Signup</h1>
+          <h1 className="text-3xl font-bold">{t('title')}</h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
 
           <div className='mb-5 md:flex gap-5'>
             <div className='mb-5 md:mb-0'>
-              <label className='block mb-2 font-medium'>First Name</label>
+              <label className='block mb-2 font-medium'>{t('first_name')}</label>
               <Controller 
                 control={control}
                 name='first_name'
@@ -55,7 +59,7 @@ const Signup = () => {
                   <Input 
                     {...field}
                     type='text'
-                    placeholder='Enter your first name'
+                    placeholder={t('first_name')}
 
                     error={!!errors.first_name}
                     errorMessage={errors.first_name?.message}
@@ -64,7 +68,7 @@ const Signup = () => {
               />
             </div>
             <div>
-              <label className='block mb-2 font-medium'>Last Name</label>
+              <label className='block mb-2 font-medium'>{t('last_name')}</label>
               <Controller 
                 control={control}
                 name='last_name'
@@ -72,7 +76,7 @@ const Signup = () => {
                   <Input 
                     {...field}
                     type='text'
-                    placeholder='Enter your last name'
+                    placeholder={t('last_name')}
 
                     error={!!errors.last_name}
                     errorMessage={errors.last_name?.message}
@@ -83,7 +87,7 @@ const Signup = () => {
           </div>
 
           <div className='mb-5'>
-            <label className='block mb-2 font-medium'>Email</label>
+            <label className='block mb-2 font-medium'>{t('email')}</label>
             <Controller 
               control={control}
               name='email'
@@ -91,7 +95,7 @@ const Signup = () => {
                 <Input 
                   {...field}
                   type='email'
-                  placeholder='Enter your email'
+                  placeholder={t('enter_your_email')} 
 
                   error={!!errors.email}
                   errorMessage={errors.email?.message}
@@ -101,7 +105,7 @@ const Signup = () => {
           </div>
 
           <div className='mb-5'>
-            <label className='block mb-2 font-medium'>Password</label>
+            <label className='block mb-2 font-medium'>{t('password')}</label>
             <Controller 
               control={control}
               name='password'
@@ -109,7 +113,7 @@ const Signup = () => {
                 <Input 
                   {...field}
                   type='password'
-                  placeholder='Enter your password'
+                  placeholder={t('enter_your_password')}
 
                   error={!!errors.password}
                   errorMessage={errors.password?.message}
@@ -126,7 +130,7 @@ const Signup = () => {
                 <Input 
                   {...field}
                   type='password'
-                  placeholder='Enter your password again'
+                  placeholder={t('enter_your_password_again')}
 
                   error={!!errors.c_password}
                   errorMessage={errors.c_password?.message}
@@ -140,13 +144,13 @@ const Signup = () => {
               className='w-full bg-primary-fg flex justify-center items-center cursor-pointer py-2.5 text-lg font-medium shadow-lg rounded-lg active:scale-98 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none disabled:bg-[]'
               disabled={!!isSubmitting}
             >
-              Signup
+              {t('submit')}
               { isSubmitting && <CgSpinnerTwo className='animate-spin ml-2 text-xl' /> }
             </button>
           </div>
         </form>
         <div className='pt-3'>
-          <p>Already have an account? <Link to='/login' className='font-bold text-primary-fg'>Login</Link> </p>
+          <p>{t('have_an_account')} <Link to='/login' className='font-bold text-primary-fg'>{t('login')}</Link> </p>
         </div>
       </div>
     </div>

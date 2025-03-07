@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTodos } from '../../context/TodosContext';
 import { category } from '../../types';
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { useTranslation } from 'react-i18next';
 
 interface ComboBoxProps {
   error?: boolean
@@ -45,6 +46,10 @@ const ComboBox: React.FC<ComboBoxProps> = ({
     }
   }, [value, categories])
 
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'todos.form'
+  })
+
   return (
     <div className="relative">
       <input
@@ -64,7 +69,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
           onBlur && onBlur(e);
         }}
         className="w-full border-2 border-border rounded focus:outline-none bg-primary-bg py-2 px-3 text-lg placeholder:text-secondary-text placeholder:opacity-50"
-        placeholder="Category..."
+        placeholder={t('category')} 
       />
 
       {isOpen && (
@@ -89,7 +94,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
                 </li>
             ))) : 
             (
-              <li className="py-2 px-3 text-secondary-text/50">Not Found</li>
+              <li className="py-2 px-3 text-secondary-text/50">{t('not_found')}</li>
             )
           }
         </ul>

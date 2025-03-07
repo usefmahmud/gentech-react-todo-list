@@ -2,10 +2,15 @@ import { useEffect, useRef } from 'react'
 import Navbar from '../components/Navbar'
 import { annotate, annotationGroup } from 'rough-notation'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const Landing = () => {
   const titleFirst = useRef(null)
   const titleSecond = useRef(null)
+
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'home.landing'
+  })
 
   useEffect(() => {
     if(!titleFirst.current || !titleSecond.current){
@@ -51,7 +56,7 @@ const Landing = () => {
           to='/signup'
           className='text-2xl bg-primary-fg rounded-md shadow-md px-6 py-1.5 select-none'
         >
-          Get Started
+          {t('get_started')}
         </Link>
       </div>
     </div>

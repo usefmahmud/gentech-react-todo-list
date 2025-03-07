@@ -5,6 +5,7 @@ import { loginFormSchema } from '../../schemas/auth'
 import { useAuth } from '../../context/AuthContext'
 import { Link, Navigate } from 'react-router-dom'
 import { CgSpinnerTwo } from 'react-icons/cg'
+import { useTranslation } from 'react-i18next'
 
 type IFormInputs = {
   email: string,
@@ -24,6 +25,9 @@ const Login = () => {
   })
 
   const { login, isAuthenticated } = useAuth()
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'auth.login'
+  })
 
   const onSubmit = async (data: IFormInputs) => {
     return await login(data)
@@ -37,11 +41,11 @@ const Login = () => {
     <div className="h-full flex items-center justify-center px-4">
       <div className="flex flex-col py-10 px-6 sm:px-10 rounded-lg shadow-md bg-secondary-bg w-full max-w-md">
         <div className="pb-5 text-center">
-          <h1 className="text-3xl font-bold">Login</h1>
+          <h1 className="text-3xl font-bold">{t('title')}</h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='mb-5'>
-            <label className='block mb-2 font-medium'>Email</label>
+            <label className='block mb-2 font-medium'>{t('email')}</label>
             <Controller 
               control={control}
               name='email'
@@ -49,7 +53,7 @@ const Login = () => {
                 <Input 
                   {...field}
                   type='email'
-                  placeholder='Enter your email'
+                  placeholder={t('enter_your_email')}
 
                   error={!!errors.email}
                   errorMessage={errors.email?.message}
@@ -59,7 +63,7 @@ const Login = () => {
           </div>
 
           <div className='mb-5'>
-            <label className='block mb-2 font-medium'>Password</label>
+            <label className='block mb-2 font-medium'>{t('password')}</label>
             <Controller 
               control={control}
               name='password'
@@ -67,7 +71,7 @@ const Login = () => {
                 <Input 
                   {...field}
                   type='password'
-                  placeholder='Enter your password'
+                  placeholder={t('enter_your_password')}
 
                   error={!!errors.password}
                   errorMessage={errors.password?.message}
@@ -81,13 +85,13 @@ const Login = () => {
               className='w-full bg-primary-fg flex justify-center items-center cursor-pointer py-2.5 text-lg font-medium shadow-lg rounded-lg active:scale-98 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none disabled:bg-[]'
               disabled={!!isSubmitting}
             >
-              Login
+              {t('submit')}  
               { isSubmitting && <CgSpinnerTwo className='animate-spin ml-2 text-xl' /> }
             </button>
           </div>
         </form>
         <div className='pt-3'>
-          <p>Doesn't have an account? <Link to='/signup' className='font-bold text-primary-fg'>Signup</Link> </p>
+          <p>{t('dont_have_an_account')} <Link to='/signup' className='font-bold text-primary-fg'>{t('signup')}</Link> </p>
         </div>
       </div>
     </div>

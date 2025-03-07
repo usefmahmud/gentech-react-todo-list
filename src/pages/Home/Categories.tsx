@@ -2,9 +2,14 @@ import { useEffect, useState } from "react"
 import CategoriesList from "../../components/Dashboard/CategoriesList"
 import { useTodos } from "../../context/TodosContext"
 import toast from "react-hot-toast"
+import { useTranslation } from "react-i18next"
 
 const Categories = () => {
   const [newCateogryValue, setNewCategoryValue] = useState('')
+
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'categories.page'
+  })
 
   const { retriveCategories, createCategory } = useTodos()
 
@@ -40,7 +45,7 @@ const Categories = () => {
       <div className="flex flex-col">
         <div className="flex justify-between items-center mb-15">
           <h2 className="text-4xl font-bold">
-            Categories
+            {t('title')}
           </h2>
         </div>
 
@@ -50,7 +55,7 @@ const Categories = () => {
               <input 
                 type="text" 
                 className="w-full max-w-[250px] border-2 border-border/60 bg-secondary-bg/30 text-[16px] font-normal px-3 py-2 rounded-md shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
-                placeholder="Add Category"  
+                placeholder={t('add')}
                 value={newCateogryValue}
                 onChange={(e) => setNewCategoryValue(e.target.value)}
               />
@@ -59,7 +64,7 @@ const Categories = () => {
                 className="bg-primary-fg px-5 text-[16px] rounded-md cursor-pointer text-white hover:bg-primary-fg/90 transition duration-150 active:scale-98"
                 onClick={handleCreateCategory}
               >
-                add
+                {t('submit')}
               </button>
             </div>
           </div>

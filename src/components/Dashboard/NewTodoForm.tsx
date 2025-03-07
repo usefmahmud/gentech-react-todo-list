@@ -4,6 +4,7 @@ import ComboBox from '../ui/Combobox'
 import Input from '../ui/Input'
 import { todoSchema } from '../../schemas/todo'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslation } from 'react-i18next'
 
 interface NewTodoFormProps {
   onClose: () => void
@@ -29,6 +30,10 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
     resolver: yupResolver(todoSchema)
   })
 
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'todos.form'
+  })
+
   const onSubmit = async (data: NewTodoFormInputs) => {
     const responseStatus = await createTodo(data)
     if(responseStatus) {
@@ -51,7 +56,7 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
                 render={({ field }) => (
                   <Input
                     type='text'
-                    placeholder='Title'
+                    placeholder={t('title')}
                     error={!!errors.title}
                     errorMessage={errors.title?.message}
                     {...field}  
@@ -67,7 +72,7 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
                 render={({ field }) => (
                   <Input
                     type='textarea'
-                    placeholder='Description'
+                    placeholder={t('description')}
                     error={!!errors.description}
                     errorMessage={errors.description?.message}
                     {...field} 
@@ -92,7 +97,7 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
 
             <div className='flex justify-center'>
               <button className='bg-primary-fg text-xl py-2 rounded-md w-[60%] cursor-pointer active:scale-98 duration-100'>
-                create
+                {t('submit')}
               </button>
             </div>
           </div>

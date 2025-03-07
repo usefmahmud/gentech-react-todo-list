@@ -7,6 +7,7 @@ import { useTodosLayout } from "../../hooks/useTodosLayout"
 import { useParams } from "react-router-dom"
 import { useTodos } from "../../context/TodosContext"
 import CircularProgressBar from "../../components/ui/CircularProgressBar"
+import { useTranslation } from "react-i18next"
 
 const Todos: React.FC<{
   sound: React.RefObject<HTMLAudioElement | null>
@@ -17,6 +18,10 @@ const Todos: React.FC<{
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [filterTodoTitle, setFilterTodoTitle] = useState('')
+
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'todos.page'
+  })
 
   const { id } = useParams()
   const { retriveTodos, retriveCategories, getCategory, todos } = useTodos()
@@ -32,7 +37,9 @@ const Todos: React.FC<{
         <div className="flex justify-between items-center mb-15">
           <h2 className="text-4xl font-bold">
             {
-              id ? `Category: ${getCategory(id)?.name}` : 'Todos'
+              id ? t('category_filter', {
+                category: getCategory(id)?.name
+              }) : t('title')
             }
           </h2>
           <div>
@@ -40,7 +47,7 @@ const Todos: React.FC<{
               className="bg-secondary-bg text-[18px] font-semibold px-5 py-2 rounded-md cursor-pointer hover:bg-secondary-bg/80 transition duration-150 active:scale-98"
               onClick={() => setIsModalOpen(true)}
             >
-              New Todo
+              {t('add')}
             </button>
           </div>
         </div>
@@ -52,7 +59,7 @@ const Todos: React.FC<{
                 <input 
                   type="text" 
                   className="border-1 border-border/50 bg-secondary-bg/30 text-[16px] font-normal px-3 py-2 rounded-md shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
-                  placeholder="Search Todos"
+                  placeholder={t('search')}
                   value={filterTodoTitle}
                   onChange={(e) => setFilterTodoTitle(e.target.value)}
                 />
