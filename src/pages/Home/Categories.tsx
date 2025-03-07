@@ -56,7 +56,7 @@ const Categories = () => {
               />
               
               <button 
-                className="bg-primary-fg px-5 text-[16px] rounded-md cursor-pointer hover:bg-primary-fg/90 transition duration-150 active:scale-98"
+                className="bg-primary-fg px-5 text-[16px] rounded-md cursor-pointer text-white hover:bg-primary-fg/90 transition duration-150 active:scale-98"
                 onClick={handleCreateCategory}
               >
                 add

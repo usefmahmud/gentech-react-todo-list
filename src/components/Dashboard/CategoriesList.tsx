@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiCheck, FiEdit, FiEdit2, FiTrash } from "react-icons/fi"
 import { useTodos } from '../../context/TodosContext'
 import toast from 'react-hot-toast'
@@ -8,7 +8,7 @@ const CategoriesList = () => {
     state: false,
     id: ''
   })
-  const [editingValue, setEditingValue] = useState<string | null>(null)
+  const [editingValue, setEditingValue] = useState<string>('')
   const { categories, deleteCategory, isCategoriesLoading, updateCategory } = useTodos()
 
   const handleEdit = async (id: string) => {
@@ -16,6 +16,21 @@ const CategoriesList = () => {
       toast.error('Category name cannot be empty')
       return
     }
+
+    if(editingValue.split(' ').length > 1) {
+      toast.error('Category name must be one word')
+      return
+    }
+
+    if(editingValue === categories.find(category => category.id === id)?.name) {
+      setIsEditing({
+        state: false,
+        id: ''
+      })
+      setEditingValue('')
+      return
+    }     
+
     const status = await updateCategory({
       id: id,
       name: editingValue
@@ -25,9 +40,13 @@ const CategoriesList = () => {
         state: false,
         id: ''
       })
-      setEditingValue(null)
+      setEditingValue('')
     }
   }
+
+  useEffect(() => {
+    setEditingValue(categories.find(category => category.id === isEditing.id)?.name as string)
+  }, [isEditing.id])
       
   return (
     <div className="w-full grid grid-cols-3 gap-6 pl-5 pt-5">

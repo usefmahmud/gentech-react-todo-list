@@ -36,7 +36,7 @@ const TodoCard: React.FC<{
             />
           </div>
           <div 
-            className={`text-xl font-semibold overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[200px] ${isChecked ? 'line-through text-white/60' : ''}`}
+            className={`text-xl font-semibold overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[200px] ${isChecked ? 'line-through' : ''}`}
           >
             {todo.title}
           </div>
@@ -54,7 +54,7 @@ const TodoCard: React.FC<{
       </div>
 
       <div className="flex justify-between items-end mt-auto">
-        <div className="text-[14px] text-white/40 font-medium">
+        <div className="text-[14px] dark:text-white/40 text-black/40 font-medium">
           {new Date(todo.date).toISOString().split("T")[0]}
         </div>
         <div className="flex gap-3">

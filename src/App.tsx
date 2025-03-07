@@ -18,7 +18,7 @@ const App = () => {
   const { theme } = useTheme()
 
   return (
-    <div className={`h-dvh bg-primary-bg text-white font-deca ${theme === 'dark' ? 'dark' : ''}`}> 
+    <div className={`h-dvh bg-primary-bg dark:text-white font-deca ${theme === 'dark' ? 'dark' : ''}`}> 
       
       <Routes>
         <Route path='/' element={isAuthenticated ? <Home /> : <Landing />}>

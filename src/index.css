@@ -3,13 +3,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary-bg: #F5F5F5;
-  --color-secondary-bg: #E0E0E0;
+  --color-primary-bg: #cfcfcf;
+  --color-secondary-bg: #e0e0e0;
 
   --color-primary-fg: #6200EE;
   
   --color-secondary-text: #6B7280;
-  --color-border: #D1D5DB;
+  --color-border: #788087;
 
   --color-danger: #EF4444;
 
