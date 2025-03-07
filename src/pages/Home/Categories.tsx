@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import CategoriesList from "../../components/Dashboard/CategoriesList"
 import { useTodos } from "../../context/TodosContext"
+import toast from "react-hot-toast"
 
 const Categories = () => {
   const [newCateogryValue, setNewCategoryValue] = useState('')
@@ -8,7 +9,10 @@ const Categories = () => {
   const { retriveCategories, createCategory } = useTodos()
 
   const handleCreateCategory = async () => {
-    if(newCateogryValue === '') return
+    if(newCateogryValue === '') {
+      toast.error('Category name cannot be empty')
+      return
+    }
     
     const status = await createCategory({
       name: newCateogryValue
