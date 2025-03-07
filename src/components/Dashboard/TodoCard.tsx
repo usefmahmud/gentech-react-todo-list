@@ -25,7 +25,7 @@ const TodoCard: React.FC<{
 
   return (
     <div
-      className={`dark:text-white text-black bg-secondary-bg rounded-md shadow-md p-5 flex flex-col select-none cursor-pointer h-full ${isChecked ? 'opacity-70 shadow-none dark:text-white/80 text-black/40' : ''}`}
+      className={`dark:text-white text-black bg-secondary-bg rounded-md shadow-md p-5 flex flex-col select-none h-full ${isChecked ? 'opacity-70 shadow-none dark:text-white/80 text-black/40' : ''}`}
     >
       <div className="flex justify-between">
         <div className="flex items-center">
