@@ -5,7 +5,7 @@ const resourses = {
   en: {
     translation: {
       home: {
-        navbar: {
+        header: {
           signup: 'Signup',
           login: 'Login'
         },
