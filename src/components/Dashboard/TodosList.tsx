@@ -6,12 +6,14 @@ interface TodoListProps {
   isGridView: boolean
   filterTodoTitle: string
   categoryId: string | undefined
+  sound: React.RefObject<HTMLAudioElement | null>
 }
 
 const TodosList: React.FC<TodoListProps> = ({
   isGridView,
   filterTodoTitle,
-  categoryId
+  categoryId,
+  sound
 }) => {
   const { todos, isTodosLoading, retriveTodos, deleteTodo } = useTodos()
 
@@ -29,6 +31,7 @@ const TodosList: React.FC<TodoListProps> = ({
               key={todo?.id}
               todo={todo}
               deleteTodo={deleteTodo}
+              sound={sound}
             />
           ))
       }

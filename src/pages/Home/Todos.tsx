@@ -8,7 +8,11 @@ import { useParams } from "react-router-dom"
 import { useTodos } from "../../context/TodosContext"
 import CircularProgressBar from "../../components/ui/CircularProgressBar"
 
-const Todos = () => {
+const Todos: React.FC<{
+  sound: React.RefObject<HTMLAudioElement | null>
+}> = ({
+  sound
+}) => {
   const [todosLayout, setTodosLayout] = useTodosLayout()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -71,6 +75,7 @@ const Todos = () => {
             isGridView={todosLayout === 'grid'}
             filterTodoTitle={filterTodoTitle}
             categoryId={id}
+            sound={sound}
           />
         </div>
 

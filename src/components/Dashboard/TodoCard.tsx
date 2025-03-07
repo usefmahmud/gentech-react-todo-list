@@ -6,10 +6,12 @@ import { useTodos } from "../../context/TodosContext"
 
 const TodoCard: React.FC<{ 
   todo: Todo,
-  deleteTodo: (id: string) => void
+  deleteTodo: (id: string) => void,
+  sound: React.RefObject<HTMLAudioElement | null>
 }> = ({
   todo,
-  deleteTodo
+  deleteTodo,
+  sound
 }) => {
   const [isChecked, setIsChecked_] = useState(false)
   const { completeTodo } = useTodos()
@@ -19,6 +21,12 @@ const TodoCard: React.FC<{
   }, [todo.is_completed])
 
   const setIsChecked = (isChecked: boolean) => {
+    if(isChecked) {
+      if(sound.current) {
+        sound.current.currentTime = 0
+      }
+      sound?.current?.play()
+    }
     setIsChecked_(isChecked)
     completeTodo(todo.id, isChecked)
   }
