@@ -95,7 +95,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         </ul>
       )}
 
-      <span className='absolute right-2 top-1/2 transform -translate-y-1/2 text-3xl text-border pointer-events-none'>
+      <span className='absolute right-2 rtl:right-auto rtl:left-2 top-1/2 transform -translate-y-1/2 text-3xl text-border pointer-events-none'>
         {
           isOpen ? <MdOutlineKeyboardArrowUp /> : <MdOutlineKeyboardArrowDown />
         }

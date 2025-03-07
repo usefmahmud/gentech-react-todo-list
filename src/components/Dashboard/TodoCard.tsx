@@ -37,7 +37,7 @@ const TodoCard: React.FC<{
     >
       <div className="flex justify-between">
         <div className="flex items-center">
-          <div className="mr-3">
+          <div className="rtl:ml-3 ltr:mr-3">
             <Checkbox 
               isChecked={isChecked}
               setIsChecked={setIsChecked}

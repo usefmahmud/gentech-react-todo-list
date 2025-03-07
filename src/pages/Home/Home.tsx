@@ -4,11 +4,11 @@ import Sidebar from '../../components/Dashboard/Sidebar'
 const Home = () => {
   return (
     <div className='h-dvh'>
-      <div className='h-full flex'>
-        <div className='h-full'>
+      <div className='flex'>
+        <div className='h-full fixed'>
           <Sidebar />
         </div>
-        <div className='flex-1'>
+        <div className='h-dvh flex-1 ltr:pl-[300px] rtl:pr-[300px]'>
           <Outlet />
         </div>
       </div>

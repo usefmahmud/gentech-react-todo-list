@@ -27,8 +27,8 @@ const Todos: React.FC<{
   }, [])
 
   return (
-    <div className="px-15 py-10">
-      <div className="flex flex-col">
+    <div className="px-15 py-10 h-full overflow-hidden">
+      <div className="flex flex-col h-full">
         <div className="flex justify-between items-center mb-15">
           <h2 className="text-4xl font-bold">
             {
@@ -45,7 +45,7 @@ const Todos: React.FC<{
           </div>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col h-full overflow-hidden">
           <div className='py-2 flex justify-between items-center mb-3'>
             <div>
               <div>
@@ -61,11 +61,11 @@ const Todos: React.FC<{
 
             <div className="flex bg-secondary-bg rounded-full text-2xl shadow-md">
               <span 
-                className={`p-2 pl-3.5 rounded-l-full cursor-pointer transition duration-100 hover:bg-primary-bg/50 ${todosLayout === 'grid' ? 'shadow-inner bg-primary-bg/50' : ''}`}
+                className={`p-2 pl-3.5 rtl:pr-3.5 rtl:pl-2 rounded-l-full rtl:rounded-r-full rtl:rounded-l-none cursor-pointer transition duration-100 hover:bg-primary-bg/50 ${todosLayout === 'grid' ? 'shadow-inner bg-primary-bg/50' : ''}`}
                 onClick={() => setTodosLayout('grid')}
               ><CiGrid41 /></span>
               <span 
-                className={`p-2 pr-3.5 rounded-r-full cursor-pointer transition duration-100 hover:bg-primary-bg/50 ${todosLayout === 'list' ? 'shadow-inner bg-primary-bg/50' : ''}`}
+                className={`p-2 pr-3.5 rtl:pl-3.5 rtl:pr-2 rounded-r-full rtl:rounded-l-full rtl:rounded-r-none cursor-pointer transition duration-100 hover:bg-primary-bg/50 ${todosLayout === 'list' ? 'shadow-inner bg-primary-bg/50' : ''}`}
                 onClick={() => setTodosLayout('list')}
               ><CiGrid2H /></span>
             </div>
@@ -92,7 +92,7 @@ const Todos: React.FC<{
         }
       </div>
 
-      <div className="fixed bottom-5 right-5">  
+      <div className="fixed bottom-5 ltr:right-5 rtl:left-5">  
 
         <CircularProgressBar 
           size={95}

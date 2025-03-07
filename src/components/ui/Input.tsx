@@ -47,7 +47,7 @@ const Input: React.FC<InputProps> = ({
               className={`
                 bg-primary-bg border-2 border-border rounded-md outline-none placeholder:text-secondary-text placeholder:opacity-50 py-2 px-3 text-lg
                 ${error ? 'border-red-400 mb-2' : ''}
-                ${type === 'password' ? 'pr-10' : ''}
+                ${type === 'password' ? 'rtl:pl-10 ltr:pr-10' : ''}
                 `}
               placeholder={placeholder}
 
@@ -62,7 +62,7 @@ const Input: React.FC<InputProps> = ({
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-[15px] cursor-pointer text-lg"
+                className="absolute right-3 rtl:right-auto rtl:left-3 top-[15px] cursor-pointer text-lg"
               >
                 {showPassword ? <GoEyeClosed /> : <GoEye />}
               </button>

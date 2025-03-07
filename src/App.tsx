@@ -25,7 +25,7 @@ const App = () => {
   }, [])
 
   return (
-    <div className={`h-dvh bg-primary-bg dark:text-white font-deca ${theme === 'dark' ? 'dark' : ''}`}> 
+    <div className={`h-dvh bg-primary-bg dark:text-white ltr:font-deca rtl:font-readex ${theme === 'dark' ? 'dark' : ''}`}> 
       
       <Routes>
         <Route path='/' element={isAuthenticated ? <Home /> : <Landing />}>
