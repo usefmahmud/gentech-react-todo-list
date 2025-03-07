@@ -6,6 +6,7 @@ import { CiGrid41, CiGrid2H } from "react-icons/ci"
 import { useTodosLayout } from "../../hooks/useTodosLayout"
 import { useParams } from "react-router-dom"
 import { useTodos } from "../../context/TodosContext"
+import CircularProgressBar from "../../components/ui/CircularProgressBar"
 
 const Todos = () => {
   const [todosLayout, setTodosLayout] = useTodosLayout()
@@ -14,7 +15,7 @@ const Todos = () => {
   const [filterTodoTitle, setFilterTodoTitle] = useState('')
 
   const { id } = useParams()
-  const { retriveTodos, retriveCategories, getCategory } = useTodos()
+  const { retriveTodos, retriveCategories, getCategory, todos } = useTodos()
 
   useEffect(() => { 
     retriveTodos()
@@ -84,6 +85,26 @@ const Todos = () => {
           }
         />
         }
+      </div>
+
+      <div className="fixed bottom-5 right-5">  
+
+        <CircularProgressBar 
+          size={95}
+          progress={
+            todos
+              .filter(todo => !id ? true : todo.category.id === id)
+              .filter(todo => todo.title.toLocaleLowerCase().includes(filterTodoTitle.toLocaleLowerCase()))
+              .filter(todo => todo.is_completed)
+              .length
+          } 
+          total={
+            todos
+              .filter(todo => !id ? true : todo.category.id === id)
+              .filter(todo => todo.title.toLocaleLowerCase().includes(filterTodoTitle.toLocaleLowerCase()))
+              .length
+          }
+        />
       </div>
     </div>
   )
