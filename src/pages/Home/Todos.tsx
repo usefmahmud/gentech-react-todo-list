@@ -46,7 +46,7 @@ const Todos = () => {
               <div>
                 <input 
                   type="text" 
-                  className="border-2 border-border bg-secondary-bg/30 text-[16px] font-normal px-3 py-2 rounded-full shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
+                  className="border-1 border-border/50 bg-secondary-bg/30 text-[16px] font-normal px-3 py-2 rounded-md shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
                   placeholder="Search Todos"
                   value={filterTodoTitle}
                   onChange={(e) => setFilterTodoTitle(e.target.value)}
