@@ -12,6 +12,8 @@ import Landing from './pages/Landing'
 import { useAuth } from './context/AuthContext'
 import { useTheme } from './context/ThemeContext'
 import { useEffect, useRef } from 'react'
+import useLocale from './hooks/useLocale'
+import i18next from 'i18next'
 
 
 const App = () => {
@@ -19,13 +21,20 @@ const App = () => {
   const { theme } = useTheme()
   const checkAudioRef = useRef<HTMLAudioElement | null>(null)
 
+  const { locale } = useLocale()
+
   useEffect(() => {
     checkAudioRef.current = new Audio('/click-sound.wav')
     checkAudioRef.current.load()
   }, [])
 
+  useEffect(() => {
+    i18next.changeLanguage(locale)
+    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr'
+  }, [])
+
   return (
-    <div className={`h-dvh bg-primary-bg dark:text-white ltr:font-deca rtl:font-readex ${theme === 'dark' ? 'dark' : ''}`}> 
+    <div className={`h-dvh bg-primary-bg dark:text-white font-readex ${theme === 'dark' ? 'dark' : ''}`}> 
       
       <Routes>
         <Route path='/' element={isAuthenticated ? <Home /> : <Landing />}>

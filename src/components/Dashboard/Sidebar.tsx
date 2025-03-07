@@ -6,6 +6,7 @@ import { CiLight, CiDark } from "react-icons/ci"
 import { useAuth } from "../../context/AuthContext"
 import { useTheme } from "../../context/ThemeContext"
 import { useTranslation } from "react-i18next"
+import useLocale from "../../hooks/useLocale"
 
 const Sidebar = () => {
   const { logout, user } = useAuth()
@@ -14,6 +15,7 @@ const Sidebar = () => {
   const { t } = useTranslation('translation', {
     keyPrefix: 'sidebar'
   })
+  const { locale, setLocale } = useLocale()
 
   return (
     <div className="h-full w-[300px] bg-secondary-bg shadow-md flex flex-col px-5 py-10 dark:text-white text-black">
@@ -54,7 +56,18 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="flex justify-center py-5">
+      <div className="flex justify-center py-5 gap-5">
+        <div className="flex bg-primary-bg rounded-md font-medium">
+          <span 
+            className={`flex items-center justify-center p-2 px-2.5 rounded-md cursor-pointer hover:bg-primary-bg/50 ${locale === 'en' ? 'border-border/60 border-1' : ''}`}
+            onClick={() => setLocale('en')}
+          >En</span>
+          <span 
+            className={`flex items-center justify-center p-2 px-2.5 rounded-md cursor-pointer hover:bg-primary-bg/50 ${locale === 'ar' ? 'border-1 border-border/60' : ''}`}
+            onClick={() => setLocale('ar')}
+          >Ar</span>
+        </div>
+            
         <div className="flex bg-primary-bg rounded-md text-2xl">
           <span 
             className={`flex items-center justify-center p-2 pl-2.5 rounded-md cursor-pointer hover:bg-primary-bg/50 ${theme === 'dark' ? 'border-border/60 border-1' : ''}`}
