@@ -11,12 +11,12 @@ const Sidebar = () => {
   const { theme, setTheme } = useTheme()
 
   return (
-    <div className="h-full w-[300px] bg-secondary-bg shadow-md flex flex-col px-5 py-10">
+    <div className="h-full w-[300px] bg-secondary-bg shadow-md flex flex-col px-5 py-10 dark:text-white text-black">
       <div className="mb-6">
         <div className="font-extrabold text-2xl">Hi, {user?.first_name}</div>
       </div>
       <div className="flex flex-col gap-5">
-        <div className="">
+        <div>
           <NavLink 
             to='/'
             className={({isActive}) => {
@@ -61,7 +61,7 @@ const Sidebar = () => {
       </div>
 
       <div className="mt-auto flex justify-center">
-        <div className="text-white/50 text-[14px] mt-auto select-none">
+        <div className="dark:text-white/50 text-black/50 text-[14px] mt-auto select-none">
           &copy; {new Date().getFullYear()} Todos App
         </div>
       </div>

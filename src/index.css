@@ -3,6 +3,22 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --color-primary-bg: #F5F5F5;
+  --color-secondary-bg: #E0E0E0;
+
+  --color-primary-fg: #6200EE;
+  
+  --color-secondary-text: #6B7280;
+  --color-border: #D1D5DB;
+
+  --color-danger: #EF4444;
+
+  --font-deca: 'Lexend Deca';
+
+  --animate-fade-in: fadeIn 0.2s;
+}
+
+.dark {
   --color-primary-bg: #302742;
   --color-secondary-bg: #3E2D54;
 
@@ -12,11 +28,6 @@
   --color-border: #555555;
 
   --color-danger: #E63946;
-
-  --font-deca: 'Lexend Deca';
-  
-
-  --animate-fade-in: fadeIn 0.2s;
 }
 
 @keyframes fadeIn {
