@@ -1,32 +1,60 @@
+import { useEffect, useState } from "react"
+import CategoriesList from "../../components/Dashboard/CategoriesList"
 import { useTodos } from "../../context/TodosContext"
 
 const Categories = () => {
-  const { createCategory } = useTodos()
+  const [newCateogryValue, setNewCategoryValue] = useState('')
 
-  function getRandomString(length: number) {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    let result = "";
+  const { retriveCategories, createCategory } = useTodos()
+
+  const handleCreateCategory = async () => {
+    if(newCateogryValue === '') return
     
-    for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        result += characters[randomIndex];
+    const status = await createCategory({
+      name: newCateogryValue
+    })
+    if(status) {
+      setNewCategoryValue('')
     }
+  }
 
-    return result;
-}
-
+  useEffect(() => {
+    retriveCategories()
+  }, [])
   return (
-    <div className="flex justify-center items-center h-full">
-      <button 
-        className="bg-primary-fg text-[18px] font-semibold px-5 py-2 rounded-md cursor-pointer transition duration-150 active:scale-98"
-        onClick={() => {
-          createCategory({
-            name: getRandomString(10)
-          })
-        }}
-      >
-        New Category  
-      </button>
+    <div className="px-15 py-10">
+      <div className="flex flex-col">
+        <div className="flex justify-between items-center mb-15">
+          <h2 className="text-4xl font-bold">
+            Categories
+          </h2>
+        </div>
+
+        <div className="flex flex-col">
+          <div className='py-2 flex justify-between items-center mb-3'>
+            <div className="w-full flex gap-3">
+              <input 
+                type="text" 
+                className="w-full max-w-[250px] border-2 border-border/60 bg-secondary-bg/30 text-[16px] font-normal px-3 py-2 rounded-md shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
+                placeholder="Add Category"  
+                value={newCateogryValue}
+                onChange={(e) => setNewCategoryValue(e.target.value)}
+              />
+              
+              <button 
+                className="bg-primary-fg px-5 text-[16px] rounded-md cursor-pointer hover:bg-primary-fg/90 transition duration-150 active:scale-98"
+                onClick={handleCreateCategory}
+              >
+                add
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <CategoriesList />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

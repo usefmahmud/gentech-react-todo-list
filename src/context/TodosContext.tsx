@@ -23,8 +23,8 @@ interface TodosContextType {
   getCategory: (id: string) => category
   createCategory: (category: {
     name: string
-  }) => Promise<void>
-  updateCategory: (category: category) => Promise<void>
+  }) => Promise<boolean>
+  updateCategory: (category: category) => Promise<boolean>
   deleteCategory: (id: string) => Promise<void>
   isCategoriesLoading: boolean
 }
@@ -242,22 +242,46 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     createCategory: async (category: {
       name: string
     }) => {
-      const response = await api.post('/categories', category)
-      if(response.status === 201) {
-        categoriesDispatch({ 
-          type: 'ADD_CATEGORY', 
-          payload: {
-            id: response.data._id,
-            name: response.data.name
-          }
-        })
-        toast.success(response.data?.message)
-        return
+      try {
+        const response = await api.post('/categories', category)
+        if(response.status === 201) {
+          categoriesDispatch({ 
+            type: 'ADD_CATEGORY', 
+            payload: {
+              id: response.data?.data._id,
+              name: response.data?.data.name
+            }
+          })
+          toast.success(response.data?.message)
+
+          return true
+        }
+        toast.error(response.data?.message || 'Error while creating category')
+      } catch(err: any){
+        console.error('Error while creating category', err)
+        toast.error(err.response.data?.message || 'Error while creating category')
       }
+      return false
     },
     updateCategory: async (category: category) => {
-      const response = await api.put(`/categories/${category.id}`, category)
-      return response.data
+      try {
+        const response = await api.put(
+          `/categories/${category.id}`, 
+          { 
+            name: category.name
+        })
+        if(response.status === 200 && response.data?.success){
+          categoriesDispatch({ type: 'UPDATE_CATEGORY', payload: category })
+          toast.success(response.data?.message)
+
+          return true
+        }
+      } catch(err: any){
+        console.error('Error while updating category', err)
+        toast.error(err.response.data?.message || 'Error while updating category')
+      }
+
+      return false
     },
     deleteCategory: async (id: string) => {
       try{
