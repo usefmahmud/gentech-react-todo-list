@@ -21,7 +21,7 @@ interface ThemeProviderProps {
 type THEME = 'dark' | 'light'
 
 const getTheme = (): THEME => {
-  const systemPreference = window.matchMedia('(prefers-color-schema: dark').matches ? 'dark' : 'light'
+  const systemPreference = window.matchMedia('(prefers-color-scheme: dark').matches ? 'dark' : 'light'
     
   return localStorage.getItem('theme') as THEME || systemPreference
 }
