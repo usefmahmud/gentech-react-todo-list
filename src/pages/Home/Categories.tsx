@@ -13,6 +13,16 @@ const Categories = () => {
       toast.error('Category name cannot be empty')
       return
     }
+
+    if(newCateogryValue.split(' ').length > 1) {
+      toast.error('Category name must be one word')
+      return
+    }
+
+    if(newCateogryValue.length > 15) {
+      toast.error('Category name must be less than 15 characters')
+      return
+    }
     
     const status = await createCategory({
       name: newCateogryValue
