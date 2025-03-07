@@ -15,7 +15,7 @@ createRoot(document.getElementById('root')!).render(
         <AuthProvider>
           <TodosProvider>
             <Toaster 
-              position='bottom-right'
+              position='bottom-left'
               containerStyle={{
                 zIndex: 10001
               }}
