@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Input from '../../components/ui/Input'
 import { signupFormSchema } from '../../schemas/auth'
 import { useAuth } from '../../context/AuthContext'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { CgSpinnerTwo } from 'react-icons/cg'
 
 type IFormInputs = {
@@ -145,6 +145,9 @@ const Signup = () => {
             </button>
           </div>
         </form>
+        <div className='pt-3'>
+          <p>Already have an account? <Link to='/login' className='font-bold text-primary-fg'>Login</Link> </p>
+        </div>
       </div>
     </div>
   )
