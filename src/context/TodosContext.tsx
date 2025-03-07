@@ -15,6 +15,7 @@ interface TodosContextType {
   }) => Promise<boolean>
   updateTodo: (todo: Todo) => Promise<void>
   deleteTodo: (id: string) => Promise<void>
+  completeTodo: (id: string, is_completed: boolean) => Promise<boolean>
   isTodosLoading: boolean
 
   categories: category[]
@@ -194,6 +195,27 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
         console.error('Error while deleting task', err)
         toast.error(err.response.data?.message || 'Error while deleting task')
       }
+    },
+    completeTodo: async (id: string, is_completed: boolean) => {   
+      try {
+        const todo = todosState.todos.find((todo: Todo) => todo.id === id) as Todo
+        const response = await api.put(
+          `/todos/${id}`, 
+          { 
+            is_completed: is_completed 
+        })
+        if(response.status === 200 && response.data?.success){
+          todosDispatch({ type: 'UPDATE_TODO', payload: { ...todo, is_completed: is_completed } })
+          toast.success(response.data?.message)
+
+          return true
+        }
+      } catch(err: any){
+        console.error('Error while updating task', err)
+        toast.error(err.response.data?.message || 'Error while updating task')
+      }
+
+      return false
     }
   }
 
@@ -261,6 +283,7 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
       createTodo: TodosManager.createTodo,
       updateTodo: TodosManager.updateTodo,
       deleteTodo: TodosManager.deleteTodo,
+      completeTodo: TodosManager.completeTodo,
       isTodosLoading,
 
       categories: categoriesState.categories,

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Checkbox from "../ui/Checkbox"
 import { Todo } from "../../types"
 import { Link } from "react-router-dom"
+import { useTodos } from "../../context/TodosContext"
 
 const TodoCard: React.FC<{ 
   todo: Todo,
@@ -10,11 +11,17 @@ const TodoCard: React.FC<{
   todo,
   deleteTodo
 }) => {
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked_] = useState(false)
+  const { completeTodo } = useTodos()
 
   useEffect(() => {
-    setIsChecked(todo.is_completed)
+    setIsChecked_(todo.is_completed)
   }, [todo.is_completed])
+
+  const setIsChecked = (isChecked: boolean) => {
+    setIsChecked_(isChecked)
+    completeTodo(todo.id, isChecked)
+  }
 
   return (
     <div
