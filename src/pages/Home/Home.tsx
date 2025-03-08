@@ -34,7 +34,7 @@ const Home = () => {
   return (
     <div className='h-dvh'>
       <div className='flex'>
-        <div className='h-full fixed -right-[300px] md:right-0 z-[1000]'>
+        <div className='h-full fixed ltr:-left-[300px] rtl:-right-[300px] rtl:md:right-0 ltr:md:left-0 z-[1000]'>
           <Sidebar />
         </div>
         <div className='h-dvh flex-1 md:ltr:pl-[300px] md:rtl:pr-[300px]'>
