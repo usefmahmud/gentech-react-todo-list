@@ -5,10 +5,10 @@ const Home = () => {
   return (
     <div className='h-dvh'>
       <div className='flex'>
-        <div className='h-full fixed'>
+        <div className='h-full fixed -right-[300px] md:right-0 z-[100000]'>
           <Sidebar />
         </div>
-        <div className='h-dvh flex-1 ltr:pl-[300px] rtl:pr-[300px]'>
+        <div className='h-dvh flex-1 md:ltr:pl-[300px] md:rtl:pr-[300px]'>
           <Outlet />
         </div>
       </div>
