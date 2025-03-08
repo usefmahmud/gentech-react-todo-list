@@ -17,8 +17,8 @@ const CategoriesList = () => {
       return
     }
 
-    if(editingValue.split(' ').length > 1) {
-      toast.error('Category name must be one word')
+    if(editingValue.split(' ').length > 2) {
+      toast.error('Category name must be at max two words')
       return
     }
 
