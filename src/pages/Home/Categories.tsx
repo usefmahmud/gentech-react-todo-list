@@ -19,15 +19,15 @@ const Categories = () => {
       return
     }
 
-    if(newCateogryValue.split(' ').length > 1) {
-      toast.error('Category name must be one word')
+    if(newCateogryValue.split(' ').length > 2) {
+      toast.error('Category name must be at max two word')
       return
     }
 
-    if(newCateogryValue.length > 15) {
-      toast.error('Category name must be less than 15 characters')
-      return
-    }
+    // if(newCateogryValue.length > 15) {
+    //   toast.error('Category name must be less than 15 characters')
+    //   return
+    // }
     
     const status = await createCategory({
       name: newCateogryValue
