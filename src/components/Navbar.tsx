@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
-import Logo from '../assets/imgs/logo_dark.svg'
+import LogoDark from '../assets/imgs/logo_dark.svg'
+import LogoLight from '../assets/imgs/logo_light.svg'
 import { useTranslation } from 'react-i18next'
+import { useTheme } from '../context/ThemeContext'
 
 const Navbar = () => {
+  const { theme } = useTheme()
   const { t } = useTranslation('translation', {
     keyPrefix: 'home.header'
   })
@@ -11,7 +14,7 @@ const Navbar = () => {
     <div className="w-full bg-primary-bg py-3 md:py-7">
       <div className="flex px-5 md:px-15 lg:px-25 items-center justify-between">
         <Link to='/' className='flex items-center select-none'>
-          <img src={Logo} className='h-7 w-7 md:h-10 md:w-10'/>
+          <img src={theme === 'light' ? LogoLight : LogoDark} className='h-7 w-7 md:h-10 md:w-10'/>
           <h1 className='font-extrabold text-2xl ml-3'>Do.it</h1>
         </Link>
 
