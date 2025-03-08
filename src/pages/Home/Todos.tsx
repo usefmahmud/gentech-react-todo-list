@@ -31,6 +31,28 @@ const Todos: React.FC<{
     retriveCategories()
   }, [])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement
+      if(target.tagName === 'INPUT' || target.tagName === 'TEXTAREA'){
+        return
+      }
+
+      // key code for 'n' key is 78
+      if(e.keyCode === 78){
+        setTimeout(() => {
+          setIsModalOpen(true)
+        }, 0)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
   return (
     <div className="px-15 py-10 h-full overflow-hidden">
       <div className="flex flex-col h-full">

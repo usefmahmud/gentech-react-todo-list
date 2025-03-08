@@ -29,7 +29,12 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
       errors
     }
   } = useForm<NewTodoFormInputs>({
-    resolver: yupResolver(todoSchema)
+    resolver: yupResolver(todoSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      category: ''
+    }
   })
 
   const { t } = useTranslation('translation', {

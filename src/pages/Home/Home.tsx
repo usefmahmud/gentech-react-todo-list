@@ -1,7 +1,36 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Sidebar from '../../components/Dashboard/Sidebar'
+import { useEffect } from 'react'
+import { useAuth } from '../../context/AuthContext'
 
 const Home = () => {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement
+      if(target.tagName === 'INPUT' || target.tagName === 'TEXTAREA'){
+        return
+      }
+
+      // key code for 't' key is 84, 'c' key is 67, and 'l' key is 83
+      if(e.keyCode === 84){
+        navigate('/')
+      }else if(e.keyCode === 67){
+        navigate('/categories')
+      }else if(e.keyCode === 76){
+        logout()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
   return (
     <div className='h-dvh'>
       <div className='flex'>
