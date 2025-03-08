@@ -19,8 +19,7 @@ const CircularProgressBar = ({
         cx={center}
         cy={center}
         r={radius}
-        className='stroke-[#d9edfe]'
-        fill="none"
+        className='stroke-[#fff] fill-primary-bg'
         strokeWidth={strokeWidth}
       />
       <circle
@@ -42,7 +41,7 @@ const CircularProgressBar = ({
         textAnchor="middle"
         dy="0.3em"
         fontSize="1em"
-        className='dark:fill-white fill-black'
+        className='dark:fill-white fill-black select-none'
       >
         {progress} / {total}
       </text>
