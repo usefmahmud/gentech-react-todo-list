@@ -49,7 +49,9 @@ const resourses = {
           title: 'Todos',
           add: 'Add Todo',
           search: 'Search Todo',
-          category_filter: 'Category: {{category}}'
+          category_filter: 'Category: {{category}}',
+          all_todos: 'All Todos',
+          today_todos: 'Today Todos',
         },
         card: {
           edit: 'Edit',
@@ -119,7 +121,9 @@ const resourses = {
           title: 'المهام',
           add: 'إضافة مهمة',
           search: 'ابحث عن مهمة',
-          category_filter: 'التصنيف: {{category}}'
+          category_filter: 'التصنيف: {{category}}',
+          all_todos: 'كل المهام', 
+          today_todos: 'مهام اليوم'
         },
         card: {
           edit: 'تعديل',

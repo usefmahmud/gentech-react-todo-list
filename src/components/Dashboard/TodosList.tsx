@@ -7,13 +7,15 @@ interface TodoListProps {
   filterTodoTitle: string
   categoryId: string | undefined
   sound: React.RefObject<HTMLAudioElement | null>
+  isOnlyToday: boolean  
 }
 
 const TodosList: React.FC<TodoListProps> = ({
   isGridView,
   filterTodoTitle,
   categoryId,
-  sound
+  sound,
+  isOnlyToday
 }) => {
   const { todos, isTodosLoading, retriveTodos, deleteTodo } = useTodos()
 
@@ -32,6 +34,7 @@ const TodosList: React.FC<TodoListProps> = ({
       {
         isTodosLoading ? "Loading..." :
         todos
+          .filter(todo => isOnlyToday ? new Date().getDate() === new Date(todo.date).getDate() : true)
           .filter(todo => categoryId ? todo.category.id === categoryId : true)
           .filter(todo => todo.title.toLowerCase().includes(filterTodoTitle.toLowerCase()) || todo.description?.toLowerCase().includes(filterTodoTitle.toLowerCase()))
           .map(todo => (

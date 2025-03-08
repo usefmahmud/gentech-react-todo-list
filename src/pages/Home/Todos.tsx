@@ -19,6 +19,8 @@ const Todos: React.FC<{
 
   const [filterTodoTitle, setFilterTodoTitle] = useState('')
 
+  const [todosDayFilter, setTodosDayFilter] = useState<'all' | 'today'>(localStorage.getItem('todos_filter') as ('today' | 'all') || 'today')
+
   const { t } = useTranslation('translation', {
     keyPrefix: 'todos.page'
   })
@@ -53,6 +55,10 @@ const Todos: React.FC<{
     }
   }, [])
 
+  useEffect(() => {
+    localStorage.setItem('todos_filter', todosDayFilter)
+  }, [todosDayFilter])
+
   return (
     <div className="px-15 py-10 h-full overflow-hidden">
       <div className="flex flex-col h-full">
@@ -76,7 +82,7 @@ const Todos: React.FC<{
 
         <div className="flex flex-col h-full overflow-hidden">
           <div className='py-2 flex justify-between items-center mb-3'>
-            <div>
+            <div className="flex items-center gap-5">
               <div>
                 <input 
                   type="text" 
@@ -85,6 +91,18 @@ const Todos: React.FC<{
                   value={filterTodoTitle}
                   onChange={(e) => setFilterTodoTitle(e.target.value)}
                 />
+              </div>
+
+              <div className="flex gap-2 items-center">
+                <span 
+                  className={`cursor-pointer select-none ${todosDayFilter === 'all' ? '' : 'dark:text-white/40 text-black/45'}`}
+                  onClick={() => setTodosDayFilter('all')}
+                >{t('all_todos')}</span>
+                <span className="text-primary-fg text-lg">|</span>
+                <span 
+                    className={`cursor-pointer select-none ${todosDayFilter === 'today' ? '' : 'dark:text-white/40 text-black/45'}`}
+                    onClick={() => setTodosDayFilter('today')}
+                  >{t('today_todos')}</span>
               </div>
             </div>
 
@@ -103,6 +121,7 @@ const Todos: React.FC<{
           <TodosList 
             isGridView={todosLayout === 'grid'}
             filterTodoTitle={filterTodoTitle}
+            isOnlyToday={todosDayFilter === 'today'}
             categoryId={id}
             sound={sound}
           />
