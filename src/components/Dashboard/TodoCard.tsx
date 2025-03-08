@@ -56,7 +56,7 @@ const TodoCard: React.FC<{
         </div>
 
         <div className="flex items-center">
-          <Link to={`/categories/${todo?.category?.id}`} className="bg-primary-fg text-[14px] rounded-full px-2.5 py-0.5">
+          <Link to={`/categories/${todo?.category?.id}`} className="bg-primary-fg text-[14px] rounded-full px-2.5 py-0.5 dark:text-white text-secondary-bg ">
             {todo?.category?.name}
           </Link>
         </div>
@@ -72,7 +72,7 @@ const TodoCard: React.FC<{
         </div>
         <div className="flex gap-3">
           <button 
-            className="bg-primary-fg text-[16px] cursor-pointer px-3 py-1 rounded-md hover:bg-primary-fg/80 duration-100"
+            className="bg-primary-fg text-[16px] cursor-pointer px-3 py-1 dark:text-white text-secondary-bg rounded-md hover:bg-primary-fg/80 duration-100"
           >
             {t('edit')}
           </button>
