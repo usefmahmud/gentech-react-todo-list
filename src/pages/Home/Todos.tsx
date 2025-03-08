@@ -88,7 +88,6 @@ const Todos: React.FC<{
 
         {
           isModalOpen && <Modal 
-          className="w-full flex justify-center"
           onClose={() => setIsModalOpen(false)}
           children={
             <NewTodoForm 
