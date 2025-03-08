@@ -11,7 +11,7 @@ interface TodosContextType {
   getTodo: (id: string) => Promise<Todo>
   createTodo: (todo: {
     title: string
-    description: string
+    description?: string
     category: string
   }) => Promise<boolean>
   updateTodo: (todo: Todo) => Promise<void>
@@ -147,7 +147,7 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     },
     createTodo: async (todo: {
       title: string
-      description: string
+      description?: string
       category: string
     }) => {
       try {

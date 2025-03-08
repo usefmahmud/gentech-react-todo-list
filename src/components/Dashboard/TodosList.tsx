@@ -33,7 +33,7 @@ const TodosList: React.FC<TodoListProps> = ({
         isTodosLoading ? "Loading..." :
         todos
           .filter(todo => categoryId ? todo.category.id === categoryId : true)
-          .filter(todo => todo.title.toLowerCase().includes(filterTodoTitle.toLowerCase()) || todo.description.toLowerCase().includes(filterTodoTitle.toLowerCase()))
+          .filter(todo => todo.title.toLowerCase().includes(filterTodoTitle.toLowerCase()) || todo.description?.toLowerCase().includes(filterTodoTitle.toLowerCase()))
           .map(todo => (
             <TodoCard 
               key={todo?.id}

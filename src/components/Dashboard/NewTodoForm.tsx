@@ -12,7 +12,7 @@ interface NewTodoFormProps {
 
 interface NewTodoFormInputs {
   title: string
-  description: string
+  description?: string
   category: string
 }
 
