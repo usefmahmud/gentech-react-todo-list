@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useReducer, useState } from "reac
 import { api } from "../services/api";
 import { category, Todo } from "../types";
 import toast from "react-hot-toast";
+import { trackEvent } from "../utils/analytics";
 
 
 interface TodosContextType {
@@ -168,6 +169,9 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
             }
           })
           toast.success(response.data?.message)
+
+          trackEvent('Create Task', todo)
+
           return true
         }
 
@@ -188,6 +192,11 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
         if(response.status === 200 && response.data?.success){
           todosDispatch({ type: 'DELETE_TODO', payload: id })
           toast.success(response.data?.message)
+
+          trackEvent('Delete Task', {
+            id
+          })
+
           return
         }
         toast.error(response.data?.message || 'Error while deleting task')
@@ -207,6 +216,10 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
         if(response.status === 200 && response.data?.success){
           todosDispatch({ type: 'UPDATE_TODO', payload: { ...todo, is_completed: is_completed } })
           toast.success(response.data?.message)
+
+          trackEvent(is_completed ? 'Complete Task' : 'Uncompleted Task', {
+            id
+          })
 
           return true
         }
@@ -254,6 +267,8 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
           })
           toast.success(response.data?.message)
 
+          trackEvent('Create Category', category)
+
           return true
         }
         toast.error(response.data?.message || 'Error while creating category')
@@ -274,6 +289,8 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
           categoriesDispatch({ type: 'UPDATE_CATEGORY', payload: category })
           toast.success(response.data?.message)
 
+          trackEvent('Update Category', category)
+
           return true
         }
       } catch(err: any){
@@ -289,6 +306,11 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
         if(response.status === 200 && response.data?.success){
           categoriesDispatch({ type: 'DELETE_CATEGORY', payload: id })
           toast.success(response.data?.message)
+
+          trackEvent('Delete Category', {
+            id
+          })
+
           return
         }
         toast.error(response.data?.message || 'Error while deleting category')

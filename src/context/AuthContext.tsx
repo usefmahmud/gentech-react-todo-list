@@ -3,6 +3,7 @@ import { RegisterFormFields } from '../types'
 import { api } from '../services/api'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { identifyUser, setUserProperties, trackEvent } from '../utils/analytics'
 
 type LoginCredentials = {
   email: string
@@ -72,6 +73,10 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
         setUser(userInfo)
         setToken(accessToken)
 
+        identifyUser(userInfo.id)
+        setUserProperties(userInfo)
+        trackEvent('Login')  
+
         toast.success(response?.data?.message)
         navigate('/')
       }
@@ -83,6 +88,8 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
   const logout = async () => {
     try{
       await api.post('/auth/logout')
+      
+      trackEvent('Logout')
 
       setUser(null);
       setToken(null);

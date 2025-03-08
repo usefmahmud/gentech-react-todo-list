@@ -10,6 +10,13 @@ import { TodosProvider } from './context/TodosContext.tsx'
 
 import './utils/i18n.ts'
 
+import mixpanel from 'mixpanel-browser'
+import AnalyticsTracker from './components/AnalyticsTracker.tsx'
+
+mixpanel.init(import.meta.env.VITE_MIXPANEL_TOKEN, {
+  debug: true
+}) 
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
@@ -23,6 +30,7 @@ createRoot(document.getElementById('root')!).render(
               }}
             />
             <App />
+            <AnalyticsTracker />
           </TodosProvider>
         </AuthProvider>
       </ThemeProvider>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { trackEvent } from "../utils/analytics"
 
 type LayoutType = 'grid' | 'list'
 
@@ -15,6 +16,9 @@ export const useTodosLayout = () => {
   }, [isGridView])
 
   const setLayout = (layout: LayoutType) => {
+    trackEvent('Layout Change', {
+      layout
+    })
     setIsGridView(layout === 'grid')
   }
 

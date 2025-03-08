@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import { trackEvent } from '../utils/analytics'
 
 interface ThemeContextType {
   theme: 'dark' | 'light'
@@ -30,6 +31,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme_] = useState<THEME>(getTheme())
 
   const setTheme = (theme: THEME) => {
+    trackEvent('Theme Change', {
+      theme
+    })
     setTheme_(theme)
   }
 
