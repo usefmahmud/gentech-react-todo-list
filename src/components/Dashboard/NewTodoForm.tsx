@@ -5,6 +5,7 @@ import Input from '../ui/Input'
 import { todoSchema } from '../../schemas/todo'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
 
 interface NewTodoFormProps {
   onClose: () => void
@@ -23,6 +24,7 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
   const {
     control,
     handleSubmit,
+    setFocus,
     formState: {
       errors
     }
@@ -40,6 +42,10 @@ const NewTodoForm: React.FC<NewTodoFormProps> = ({
       onClose()
     }
   }
+
+  useEffect(() => {
+    setFocus('title')
+  }, [])
 
   return (
     <div className='bg-secondary-bg p-7 rounded-md shadow-lg w-full max-w-lg'>

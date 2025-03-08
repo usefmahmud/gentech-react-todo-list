@@ -20,6 +20,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const [chosenId, setChosenId] = useState('')
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<number>(0)
   const { categories, retriveCategories, isCategoriesLoading } = useTodos()
 
   useEffect(() => {
@@ -45,6 +46,27 @@ const ComboBox: React.FC<ComboBoxProps> = ({
       setChosenId('')
     }
   }, [value, categories])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if(e.key === 'ArrowDown') {
+        setSelectedItem((prev) => prev < filterOptions.length - 1 ? prev + 1 : 0)
+      }else if(e.key === 'ArrowUp') {
+        setSelectedItem((prev) => prev > 0 ? prev - 1 : filterOptions.length - 1)
+      }else if(e.key === 'Enter') {
+        setChosenId(filterOptions[selectedItem].id)
+        onChange && onChange({ target: { value: filterOptions[selectedItem].id } } as any)
+        setIsOpen(false)
+      }else if(e.key === 'Escape') {
+        setIsOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   const { t } = useTranslation('translation', {
     keyPrefix: 'todos.form'
@@ -80,7 +102,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
               <li className="py-2 px-3 text-secondary-text/50">Loading...</li> 
             ) : 
             filterOptions.length ? 
-            (filterOptions.map((option) => (
+            (filterOptions.map((option, idx) => (
                 <li
                   key={option.id}
                   onClick={() => {
@@ -88,7 +110,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
                     onChange && onChange({ target: { value: option.id } } as any)
                     setIsOpen(false)
                   }}
-                  className="hover:bg-secondary-bg/70 cursor-pointer py-2 px-3"
+                  className={`hover:bg-secondary-bg/70 cursor-pointer py-2 px-3 ${selectedItem === idx ? 'bg-secondary-bg/70' : ''}`}
                 >
                   {option.name}
                 </li>
