@@ -20,7 +20,7 @@ const TodosList: React.FC<TodoListProps> = ({
   return (
     <div
       className={`
-        overflow-y-auto gap-4 ${isGridView ? 'grid grid-cols-3' : 'flex flex-col'}
+        overflow-y-auto gap-4 ${isGridView ? 'grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3  ' : 'flex flex-col'}
         [&::-webkit-scrollbar]:w-2 
         [&::-webkit-scrollbar-track]:m-2
         [&::-webkit-scrollbar-thumb]:w-2 
