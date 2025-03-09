@@ -8,6 +8,9 @@ import { useParams } from "react-router-dom"
 import { useTodos } from "../../context/TodosContext"
 import CircularProgressBar from "../../components/ui/CircularProgressBar"
 import { useTranslation } from "react-i18next"
+import { useTodosFilter } from "../../hooks/useTodosFilter"
+import { Todo } from "../../types"
+import TodosFilterBox from "../../components/Dashboard/TodosFilterBox"
 
 const Todos: React.FC<{
   sound: React.RefObject<HTMLAudioElement | null>
@@ -17,9 +20,14 @@ const Todos: React.FC<{
   const [todosLayout, setTodosLayout] = useTodosLayout()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const [filterTodoTitle, setFilterTodoTitle] = useState('')
-
-  const [todosDayFilter, setTodosDayFilter] = useState<'all' | 'today'>(localStorage.getItem('todos_filter') as ('today' | 'all') || 'today')
+  const { 
+    todosFilteredText,
+    setTodosFilteredText,
+    todosFilteredCompleted,
+    setTodosFilteredCompleted,
+    todosFilteredTodayTodos,
+    setTodosFilteredTodayTodos
+  } = useTodosFilter()
 
   const { t } = useTranslation('translation', {
     keyPrefix: 'todos.page'
@@ -27,6 +35,8 @@ const Todos: React.FC<{
 
   const { id } = useParams()
   const { retriveTodos, retriveCategories, getCategory, todos } = useTodos()
+
+  const [filteredTodos, setFilteredTodos] = useState(todos)
 
   useEffect(() => { 
     retriveTodos()
@@ -56,8 +66,14 @@ const Todos: React.FC<{
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('todos_filter', todosDayFilter)
-  }, [todosDayFilter])
+    setFilteredTodos(() => {
+      return todos
+              .filter(todo => id ? todo.category.id === id : true)
+              .filter(todo => todosFilteredCompleted === 'all' ? true : todosFilteredCompleted === 'completed' ? todo.is_completed : !todo.is_completed)
+              .filter(todo => todosFilteredTodayTodos === 'today' ? new Date().getDate() === new Date(todo.date).getDate() : true)
+              .filter(todo => todosFilteredText === '' ? true : todo.title.toLocaleLowerCase().includes(todosFilteredText.toLocaleLowerCase()))
+    })
+  }, [todos, id, todosFilteredTodayTodos, todosFilteredCompleted, todosFilteredText])
 
   return (
     <div className="px-15 py-10 h-full overflow-hidden">
@@ -88,21 +104,18 @@ const Todos: React.FC<{
                   type="text" 
                   className="border-1 border-border/50 bg-secondary-bg/30 text-[16px] font-normal px-3 py-2 rounded-md shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
                   placeholder={t('search')}
-                  value={filterTodoTitle}
-                  onChange={(e) => setFilterTodoTitle(e.target.value)}
+                  value={todosFilteredText}
+                  onChange={(e) => setTodosFilteredText(e.target.value)}
                 />
               </div>
 
-              <div className="flex gap-2 items-center">
-                <span 
-                  className={`cursor-pointer select-none ${todosDayFilter === 'all' ? '' : 'dark:text-white/40 text-black/45'}`}
-                  onClick={() => setTodosDayFilter('all')}
-                >{t('all_todos')}</span>
-                <span className="text-primary-fg text-lg">|</span>
-                <span 
-                    className={`cursor-pointer select-none ${todosDayFilter === 'today' ? '' : 'dark:text-white/40 text-black/45'}`}
-                    onClick={() => setTodosDayFilter('today')}
-                  >{t('today_todos')}</span>
+              <div>
+                <TodosFilterBox 
+                  todosFilteredTodayTodos={todosFilteredTodayTodos}
+                  setTodosFilteredTodayTodos={setTodosFilteredTodayTodos}
+                  todosFilteredCompleted={todosFilteredCompleted}
+                  setTodosFilteredCompleted={setTodosFilteredCompleted}
+                />
               </div>
             </div>
 
@@ -120,9 +133,7 @@ const Todos: React.FC<{
 
           <TodosList 
             isGridView={todosLayout === 'grid'}
-            filterTodoTitle={filterTodoTitle}
-            isOnlyToday={todosDayFilter === 'today'}
-            categoryId={id}
+            todos={filteredTodos}
             sound={sound}
           />
         </div>
@@ -144,18 +155,11 @@ const Todos: React.FC<{
         <CircularProgressBar 
           size={95}
           progress={
-            todos
-              .filter(todo => !id ? true : todo.category.id === id)
-              .filter(todo => todo.title.toLocaleLowerCase().includes(filterTodoTitle.toLocaleLowerCase()))
+            filteredTodos
               .filter(todo => todo.is_completed)
               .length
           } 
-          total={
-            todos
-              .filter(todo => !id ? true : todo.category.id === id)
-              .filter(todo => todo.title.toLocaleLowerCase().includes(filterTodoTitle.toLocaleLowerCase()))
-              .length
-          }
+          total={filteredTodos.length}
         />
       </div>
     </div>

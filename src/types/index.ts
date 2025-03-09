@@ -18,3 +18,9 @@ export interface Todo {
   date: string
   is_completed: boolean
 }
+
+export interface TodoFilters {
+  filteredText: string
+  filteredCompleted: 'all' | 'completed' | 'uncompleted'
+  filteredTodayTodos: 'all' | 'today'
+}

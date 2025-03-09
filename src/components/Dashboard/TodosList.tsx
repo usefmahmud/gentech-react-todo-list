@@ -1,23 +1,23 @@
-import { useEffect } from "react"
 import TodoCard from "./TodoCard"
 import { useTodos } from "../../context/TodosContext"
+import { Todo } from "../../types"
+import { useTranslation } from "react-i18next"
 
 interface TodoListProps {
+  todos: Todo[]
   isGridView: boolean
-  filterTodoTitle: string
-  categoryId: string | undefined
   sound: React.RefObject<HTMLAudioElement | null>
-  isOnlyToday: boolean  
 }
 
 const TodosList: React.FC<TodoListProps> = ({
+  todos,
   isGridView,
-  filterTodoTitle,
-  categoryId,
-  sound,
-  isOnlyToday
+  sound
 }) => {
-  const { todos, isTodosLoading, retriveTodos, deleteTodo } = useTodos()
+  const { isTodosLoading, deleteTodo } = useTodos()
+  const { t } = useTranslation('translation', { 
+    keyPrefix: 'todos.page'
+  })
 
   return (
     <div
@@ -32,11 +32,8 @@ const TodosList: React.FC<TodoListProps> = ({
         `}
     >
       {
-        isTodosLoading ? "Loading..." :
+        isTodosLoading ? t('loading') :
         todos
-          .filter(todo => isOnlyToday ? new Date().getDate() === new Date(todo.date).getDate() : true)
-          .filter(todo => categoryId ? todo.category.id === categoryId : true)
-          .filter(todo => todo.title.toLowerCase().includes(filterTodoTitle.toLowerCase()) || todo.description?.toLowerCase().includes(filterTodoTitle.toLowerCase()))
           .map(todo => (
             <TodoCard 
               key={todo?.id}
