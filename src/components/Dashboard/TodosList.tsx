@@ -24,6 +24,8 @@ const TodosList: React.FC<TodoListProps> = ({
       className={`
         overflow-y-auto gap-4 ${isGridView ? 'grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3  ' : 'flex flex-col'}
         [&::-webkit-scrollbar]:w-2 
+        [&::-webkit-scrollbar]:hidden
+        hover:[&::-webkit-scrollbar]:block
         [&::-webkit-scrollbar-track]:m-2
         [&::-webkit-scrollbar-thumb]:w-2 
         [&::-webkit-scrollbar-thumb]:rounded-full
