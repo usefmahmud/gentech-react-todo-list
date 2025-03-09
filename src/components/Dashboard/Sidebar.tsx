@@ -29,7 +29,7 @@ const Sidebar = () => {
           <NavLink 
             to='/'
             className={({isActive}) => {
-              return `${isActive ? 'pl-6' : ''} flex items-center gap-2 text-[18px] bg-primary-bg px-3 py-2.5 rounded-md transition-scale duration-150 active:scale-98 hover:bg-primary-bg/80 hover:pl-6`
+              return `${isActive ? 'ltr:pl-6 rtl:pr-6' : ''} flex items-center gap-2 text-[18px] bg-primary-bg px-3 py-2.5 rounded-md transition-scale duration-150 active:scale-98 hover:bg-primary-bg/80 hover:ltr:pl-6 hover:rtl:pr-6`
             }}
           >
             <IoIosList className="text-2xl"/> {t('todos')}
@@ -39,7 +39,7 @@ const Sidebar = () => {
           <NavLink 
             to='/categories'
             className={({isActive}) => {
-              return `${isActive ? 'pl-6' : ''} flex items-center gap-2 text-[18px] bg-primary-bg px-3 py-2.5 rounded-md transition-scale duration-150 active:scale-98 hover:bg-primary-bg/80 hover:pl-6`
+              return `${isActive ? 'ltr:pl-6 rtl:pr-6' : ''} flex items-center gap-2 text-[18px] bg-primary-bg px-3 py-2.5 rounded-md transition-scale duration-150 active:scale-98 hover:bg-primary-bg/80 hover:ltr:pl-6 hover:rtl:pr-6`
             }}
           >
             <FiLayers className="text-2xl"/> {t('categories')}
