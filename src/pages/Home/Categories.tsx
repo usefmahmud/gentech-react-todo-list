@@ -3,9 +3,14 @@ import CategoriesList from "../../components/Dashboard/CategoriesList"
 import { useTodos } from "../../context/TodosContext"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
+import { useOutletContext } from "react-router-dom"
+import { HomeOutletContextType } from "../../types"
+import { IoMenuOutline } from "react-icons/io5";
+
 
 const Categories = () => {
   const [newCateogryValue, setNewCategoryValue] = useState('')
+  const { setIsSidebarOpen } = useOutletContext<HomeOutletContextType>()
 
   const { t } = useTranslation('translation', {
     keyPrefix: 'categories.page'
@@ -23,11 +28,6 @@ const Categories = () => {
       toast.error('Category name must be at max two word')
       return
     }
-
-    // if(newCateogryValue.length > 15) {
-    //   toast.error('Category name must be less than 15 characters')
-    //   return
-    // }
     
     const status = await createCategory({
       name: newCateogryValue
@@ -41,9 +41,17 @@ const Categories = () => {
     retriveCategories()
   }, [])
   return (
-    <div className="px-15 py-10">
+    <div className="px-4 md:px-15 py-10">
       <div className="flex flex-col">
-        <div className="flex justify-between items-center mb-15">
+        <div className="flex items-center mb-15 gap-3">
+          <div className="block md:hidden">
+            <span 
+              className="text-4xl cursor-pointer"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <IoMenuOutline />
+            </span>
+          </div>
           <h2 className="text-4xl font-bold">
             {t('title')}
           </h2>

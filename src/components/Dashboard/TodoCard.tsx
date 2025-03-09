@@ -45,7 +45,7 @@ const TodoCard: React.FC<{
       className={`dark:text-white text-black bg-secondary-bg rounded-md shadow-md p-5 flex flex-col select-none h-full ${isChecked ? 'opacity-70 shadow-none dark:text-white/80 text-black/40' : ''}`}
     >
       <div className="flex justify-between">
-        <div className="flex items-center">
+        <div className="flex flex-1 items-center">
           <div className="rtl:ml-3 ltr:mr-3">
             <Checkbox 
               isChecked={isChecked}
@@ -53,7 +53,7 @@ const TodoCard: React.FC<{
             />
           </div>
           <div 
-            className={`text-xl font-semibold overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[200px] ${isChecked ? 'line-through' : ''}`}
+            className={`text-xl font-semibold overflow-ellipsis overflow-hidden whitespace-wrap line-clamp-1 ${isChecked ? 'line-through' : ''}`}
           >
             {todo.title}
           </div>

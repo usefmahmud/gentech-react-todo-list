@@ -49,7 +49,7 @@ const CategoriesList = () => {
   }, [isEditing.id])
       
   return (
-    <div className="w-full grid grid-cols-3 gap-6 pl-5 pt-5">
+    <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 pl-5 pt-5">
       {
         isCategoriesLoading ? "Loading..." :
         categories.map(category => (

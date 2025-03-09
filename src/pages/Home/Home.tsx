@@ -1,7 +1,8 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import Sidebar from '../../components/Dashboard/Sidebar'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import { HomeOutletContextType } from '../../types'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -31,14 +32,21 @@ const Home = () => {
     }
   }, [])
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
   return (
     <div className='h-dvh'>
       <div className='flex'>
-        <div className='h-full fixed ltr:-left-[300px] rtl:-right-[300px] rtl:md:right-0 ltr:md:left-0 z-[1000]'>
-          <Sidebar />
+        <div 
+          className={`h-full fixed shadow-md w-full md:max-w-[300px] rtl:md:right-0 ltr:md:left-0 z-[1000] transition-position duration-250 ${isSidebarOpen ? 'ltr:-left-[0px] rtl:-right-[0px]' : 'ltr:-left-full rtl:-right-full'}`}
+        >
+          <Sidebar 
+            isSidebarOpen={isSidebarOpen} 
+            setIsSidebarOpen={setIsSidebarOpen}
+          />
         </div>
         <div className='h-dvh flex-1 md:ltr:pl-[300px] md:rtl:pr-[300px]'>
-          <Outlet />
+          <Outlet context={{isSidebarOpen, setIsSidebarOpen} satisfies HomeOutletContextType} />
         </div>
       </div>
     </div>

@@ -76,9 +76,9 @@ const Todos: React.FC<{
   }, [todos, id, todosFilteredTodayTodos, todosFilteredCompleted, todosFilteredText])
 
   return (
-    <div className="px-15 py-10 h-full overflow-hidden">
+    <div className="px-4 md:px-15 py-10 h-full overflow-hidden">
       <div className="flex flex-col h-full">
-        <div className="flex justify-between items-center mb-15">
+        <div className="flex justify-between items-center mb-4 md:mb-15">
           <h2 className="text-4xl font-bold">
             {
               id ? t('category_filter', {
@@ -97,19 +97,19 @@ const Todos: React.FC<{
         </div>
 
         <div className="flex flex-col h-full overflow-hidden">
-          <div className='py-2 flex justify-between items-center mb-3'>
-            <div className="flex items-center gap-5">
-              <div>
+          <div className='py-2 flex flex-col md:flex-row justify-between items-center mb-3'>
+            <div className="flex flex-col md:flex-row items-center w-full gap-5">
+              <div className="w-full md:w-auto">
                 <input 
                   type="text" 
-                  className="border-1 border-border/50 bg-secondary-bg/30 text-[16px] font-normal px-3 py-2 rounded-md shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
+                  className="border-1 border-border/50 bg-secondary-bg/30 text-[16px] font-normal w-full px-3 py-2 rounded-md shadow-md placeholder:text-secondary-text placeholder:opacity-50 focus:outline-none" 
                   placeholder={t('search')}
                   value={todosFilteredText}
                   onChange={(e) => setTodosFilteredText(e.target.value)}
                 />
               </div>
 
-              <div>
+              <div >    
                 <TodosFilterBox 
                   todosFilteredTodayTodos={todosFilteredTodayTodos}
                   setTodosFilteredTodayTodos={setTodosFilteredTodayTodos}
@@ -119,7 +119,7 @@ const Todos: React.FC<{
               </div>
             </div>
 
-            <div className="flex bg-secondary-bg rounded-full text-2xl shadow-md">
+            <div className="bg-secondary-bg rounded-full text-2xl shadow-md hidden md:flex">
               <span 
                 className={`p-2 pl-3.5 rtl:pr-3.5 rtl:pl-2 rounded-l-full rtl:rounded-r-full rtl:rounded-l-none cursor-pointer transition duration-100 hover:bg-primary-bg/50 ${todosLayout === 'grid' ? 'shadow-inner bg-primary-bg/50' : ''}`}
                 onClick={() => setTodosLayout('grid')}

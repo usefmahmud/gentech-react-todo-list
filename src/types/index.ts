@@ -24,3 +24,8 @@ export interface TodoFilters {
   filteredCompleted: 'all' | 'completed' | 'uncompleted'
   filteredTodayTodos: 'all' | 'today'
 }
+
+export type HomeOutletContextType = {
+  isSidebarOpen: boolean
+  setIsSidebarOpen: (value: boolean) => void
+}
