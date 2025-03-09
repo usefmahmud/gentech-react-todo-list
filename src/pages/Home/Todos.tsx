@@ -4,13 +4,14 @@ import Modal from "../../components/ui/Modal"
 import NewTodoForm from "../../components/Dashboard/NewTodoForm"
 import { CiGrid41, CiGrid2H } from "react-icons/ci"
 import { useTodosLayout } from "../../hooks/useTodosLayout"
-import { useParams } from "react-router-dom"
+import { useOutletContext, useParams } from "react-router-dom"
 import { useTodos } from "../../context/TodosContext"
 import CircularProgressBar from "../../components/ui/CircularProgressBar"
 import { useTranslation } from "react-i18next"
 import { useTodosFilter } from "../../hooks/useTodosFilter"
-import { Todo } from "../../types"
+import { HomeOutletContextType, Todo } from "../../types"
 import TodosFilterBox from "../../components/Dashboard/TodosFilterBox"
+import { IoMenuOutline } from "react-icons/io5"
 
 const Todos: React.FC<{
   sound: React.RefObject<HTMLAudioElement | null>
@@ -37,6 +38,8 @@ const Todos: React.FC<{
   const { retriveTodos, retriveCategories, getCategory, todos } = useTodos()
 
   const [filteredTodos, setFilteredTodos] = useState(todos)
+
+  const { setIsSidebarOpen } = useOutletContext<HomeOutletContextType>()
 
   useEffect(() => { 
     retriveTodos()
@@ -79,13 +82,23 @@ const Todos: React.FC<{
     <div className="px-4 md:px-15 py-10 h-full overflow-hidden">
       <div className="flex flex-col h-full">
         <div className="flex justify-between items-center mb-4 md:mb-15">
-          <h2 className="text-4xl font-bold">
-            {
-              id ? t('category_filter', {
-                category: getCategory(id)?.name
-              }) : t('title')
-            }
-          </h2>
+          <div className="flex gap-3 items-center">
+            <div className="block md:hidden">
+              <span 
+                className="text-4xl cursor-pointer"
+                onClick={() => setIsSidebarOpen(true)}
+              >
+                <IoMenuOutline />
+              </span>
+            </div>
+            <h2 className="text-4xl font-bold">
+              {
+                id ? t('category_filter', {
+                  category: getCategory(id)?.name
+                }) : t('title')
+              }
+            </h2>
+          </div>
           <div>
             <button
               className="bg-secondary-bg text-[18px] font-semibold px-5 py-2 rounded-md cursor-pointer hover:bg-secondary-bg/80 transition duration-150 active:scale-98"
