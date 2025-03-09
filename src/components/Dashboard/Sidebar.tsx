@@ -35,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         {
           isSidebarOpen && (
             <div 
-              className="cursor-pointer"
+              className="block md:hidden cursor-pointer"
               onClick={() => setIsSidebarOpen(false)}
             >
               <span className="text-4xl"><IoClose /></span>
