@@ -58,7 +58,8 @@ const resourses = {
         },
         card: {
           edit: 'Edit',
-          delete: 'Delete'
+          delete: 'Delete',
+          set_today: 'Set Today'
         },
         form: {
           title: 'Title',
@@ -133,7 +134,8 @@ const resourses = {
         },
         card: {
           edit: 'تعديل',
-          delete: 'حذف'
+          delete: 'حذف',
+          set_today: 'تعيين لليوم'
         },
         form: {
           title: 'العنوان',

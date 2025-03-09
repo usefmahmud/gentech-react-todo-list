@@ -17,6 +17,7 @@ interface TodosContextType {
   updateTodo: (todo: Todo) => Promise<void>
   deleteTodo: (id: string) => Promise<void>
   completeTodo: (id: string, is_completed: boolean) => Promise<boolean>
+  setTodoToday: (id: string) => Promise<void>
   isTodosLoading: boolean
 
   categories: category[]
@@ -130,6 +131,7 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
       setIsTodosLoading(true)
       try{
         const response = await api.get('/todos')
+        console.log(response)
         if(response.status === 200 && response.data?.success){
           todosDispatch({ type: 'SET_TODOS', payload: response.data?.data })
           return
@@ -229,6 +231,27 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
       }
 
       return false
+    },
+    setTodoToday: async (id: string) => {
+      try {
+        const todo = todosState.todos.find((todo: Todo) => todo.id === id) as Todo
+        const response = await api.put(
+          `/todos/${id}`, 
+          { 
+            date: Date.now()
+        })
+        if(response.status === 200 && response.data?.success){
+          todosDispatch({ type: 'UPDATE_TODO', payload: { ...todo, date: Date.now() } })
+          toast.success('Task set today successfully')
+
+          trackEvent('Set Task Today', {
+            id
+          })
+        }
+      } catch(err: any){
+        console.error('Error while setting task today', err)
+        toast.error(err.response.data?.message || 'Error while setting task today')
+      }
     }
   }
 
@@ -330,6 +353,7 @@ const TodosProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
       updateTodo: TodosManager.updateTodo,
       deleteTodo: TodosManager.deleteTodo,
       completeTodo: TodosManager.completeTodo,
+      setTodoToday: TodosManager.setTodoToday,
       isTodosLoading,
 
       categories: categoriesState.categories,

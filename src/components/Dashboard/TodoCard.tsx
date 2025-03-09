@@ -15,7 +15,7 @@ const TodoCard: React.FC<{
   sound
 }) => {
   const [isChecked, setIsChecked_] = useState(false)
-  const { completeTodo } = useTodos()
+  const { completeTodo, setTodoToday } = useTodos()
 
   const { t } = useTranslation('translation', {
     keyPrefix: 'todos.card'
@@ -34,6 +34,10 @@ const TodoCard: React.FC<{
     }
     setIsChecked_(isChecked)
     completeTodo(todo.id, isChecked)
+  }
+
+  const setToToday = () => {
+    setTodoToday(todo.id)
   }
 
   return (
@@ -71,11 +75,24 @@ const TodoCard: React.FC<{
           {new Date(todo.date).toISOString().split("T")[0]}
         </div>
         <div className="flex gap-3">
-          <button 
-            className="bg-primary-fg text-[16px] cursor-pointer px-3 py-1 dark:text-white text-secondary-bg rounded-md hover:bg-primary-fg/80 duration-100"
-          >
-            {t('edit')}
-          </button>
+          {
+            !todo.is_completed && (new Date(todo.date).getDate() !== new Date().getDate()) ? (
+              <button 
+                className="bg-primary-fg text-[16px] cursor-pointer px-3 py-1 dark:text-white text-secondary-bg rounded-md hover:bg-primary-fg/80 duration-100"
+                onClick={setToToday}
+              >
+                {t('set_today')}
+              </button>
+            ) :
+            (
+              // <button 
+              //   className="bg-primary-fg text-[16px] cursor-pointer px-3 py-1 dark:text-white text-secondary-bg rounded-md hover:bg-primary-fg/80 duration-100"
+              // >
+              //   {t('edit')}
+              // </button>
+              null
+            )
+          }
           <button 
             className="bg-danger text-[16px] cursor-pointer px-3 py-1 rounded-md hover:bg-danger/80 duration-100"
             onClick={() => deleteTodo(todo.id)}
