@@ -40,7 +40,7 @@ type AuthConotextProps = {
 }
 export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
-  const [token, setToken] = useState<string | null>('')
+  const [token, setToken] = useState<string | null>(null)
 
   const navigate = useNavigate()
   
@@ -157,6 +157,8 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
               await api(Request)
             }
           } catch(err){
+            toast.error('Session expired, please login again')
+            setUser(null)
             setToken(null)
           }
         } 
@@ -173,7 +175,7 @@ export const AuthProvider: React.FC<AuthConotextProps> = ({ children }) => {
   return (
     <AuthContext.Provider value={{ 
       user,
-      isAuthenticated: !!user,
+      isAuthenticated: !!user && !!token,
       token,
       login, 
       register,
