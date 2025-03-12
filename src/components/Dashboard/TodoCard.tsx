@@ -4,6 +4,8 @@ import { Todo } from "../../types"
 import { Link } from "react-router-dom"
 import { useTodos } from "../../context/TodosContext"
 import { useTranslation } from "react-i18next"
+import Highlighter from "react-highlight-words"
+import { useQueryState } from "nuqs"
 
 const TodoCard: React.FC<{ 
   todo: Todo,
@@ -16,6 +18,8 @@ const TodoCard: React.FC<{
 }) => {
   const [isChecked, setIsChecked_] = useState(false)
   const { completeTodo, setTodoToday } = useTodos()
+
+  const [filteredText] = useQueryState('q')
 
   const { t } = useTranslation('translation', {
     keyPrefix: 'todos.card'
@@ -55,7 +59,10 @@ const TodoCard: React.FC<{
           <div 
             className={`text-xl font-semibold overflow-ellipsis overflow-hidden whitespace-wrap line-clamp-1 ${isChecked ? 'line-through' : ''}`}
           >
-            {todo.title}
+            <Highlighter 
+              searchWords={[filteredText || '']}
+              textToHighlight={todo.title}
+            />
           </div>
         </div>
 
@@ -67,7 +74,10 @@ const TodoCard: React.FC<{
       </div>
 
       <div className="line-clamp-4 my-3 text-[14px]">
-        {todo.description}
+        <Highlighter 
+          searchWords={[filteredText || '']}
+          textToHighlight={todo.description}
+        />
       </div>
 
       <div className="flex justify-between items-end mt-auto">

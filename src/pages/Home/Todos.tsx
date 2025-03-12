@@ -69,7 +69,7 @@ const Todos: React.FC<{
               .filter(todo => id ? todo.category.id === id : true)
               .filter(todo => todosFilteredCompleted === 'all' ? true : todosFilteredCompleted === 'completed' ? todo.is_completed : !todo.is_completed)
               .filter(todo => todosFilteredTodayTodos === 'today' ? new Date().getDate() === new Date(todo.date).getDate() : true)
-              .filter(todo => todosFilteredText === '' ? true : todo.title.toLocaleLowerCase().includes(todosFilteredText.toLocaleLowerCase()))
+              .filter(todo => todosFilteredText === '' ? true : (todo.title.toLocaleLowerCase().includes(todosFilteredText.toLocaleLowerCase()) || todo.description?.toLocaleLowerCase().includes(todosFilteredText.toLocaleLowerCase())))
     })
   }, [todos, id, todosFilteredTodayTodos, todosFilteredCompleted, todosFilteredText])
 
