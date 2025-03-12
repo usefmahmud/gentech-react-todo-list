@@ -7,6 +7,7 @@ import './index.css'
 import { ThemeProvider } from './context/ThemeContext.tsx'
 import { AuthProvider } from './context/AuthContext.tsx'
 import { TodosProvider } from './context/TodosContext.tsx'
+import { NuqsAdapter } from 'nuqs/adapters/react-router' 
 
 import './utils/i18n.ts'
 
@@ -20,20 +21,22 @@ mixpanel.init(import.meta.env.VITE_MIXPANEL_TOKEN, {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <TodosProvider>
-            <Toaster 
-              position='bottom-left'
-              containerStyle={{
-                zIndex: 10001
-              }}
-            />
-            <App />
-            <AnalyticsTracker />
-          </TodosProvider>
-        </AuthProvider>
-      </ThemeProvider>
+      <NuqsAdapter>
+        <ThemeProvider>
+          <AuthProvider>
+            <TodosProvider>
+              <Toaster 
+                position='bottom-left'
+                containerStyle={{
+                  zIndex: 10001
+                }}
+              />
+              <App />
+              <AnalyticsTracker />
+            </TodosProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </NuqsAdapter>
     </BrowserRouter>
   </StrictMode>,
 )

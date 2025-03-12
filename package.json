@@ -21,6 +21,7 @@
     "i18next": "^24.2.2",
     "jwt-decode": "^4.0.0",
     "mixpanel-browser": "^2.61.0",
+    "nuqs": "^2.4.1",
     "react": "^19.0.0",
     "react-cookie": "^7.2.2",
     "react-dom": "^19.0.0",

@@ -8,7 +8,7 @@ import { useOutletContext, useParams } from "react-router-dom"
 import { useTodos } from "../../context/TodosContext"
 import CircularProgressBar from "../../components/ui/CircularProgressBar"
 import { useTranslation } from "react-i18next"
-import { useTodosFilter } from "../../hooks/useTodosFilter"
+import { useQueryState } from 'nuqs'
 import { HomeOutletContextType, Todo } from "../../types"
 import TodosFilterBox from "../../components/Dashboard/TodosFilterBox"
 import { IoMenuOutline } from "react-icons/io5"
@@ -21,14 +21,9 @@ const Todos: React.FC<{
   const [todosLayout, setTodosLayout] = useTodosLayout()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { 
-    todosFilteredText,
-    setTodosFilteredText,
-    todosFilteredCompleted,
-    setTodosFilteredCompleted,
-    todosFilteredTodayTodos,
-    setTodosFilteredTodayTodos
-  } = useTodosFilter()
+  const [todosFilteredText, setTodosFilteredText] = useQueryState('q', { defaultValue: '' })
+  const [todosFilteredCompleted, setTodosFilteredCompleted] = useQueryState('status', { defaultValue: 'all' })
+  const [todosFilteredTodayTodos, setTodosFilteredTodayTodos] = useQueryState('due', { defaultValue: 'all' })
 
   const { t } = useTranslation('translation', {
     keyPrefix: 'todos.page'
@@ -124,9 +119,9 @@ const Todos: React.FC<{
 
               <div >    
                 <TodosFilterBox 
-                  todosFilteredTodayTodos={todosFilteredTodayTodos}
+                  todosFilteredTodayTodos={todosFilteredTodayTodos as ('all' | 'today')}
                   setTodosFilteredTodayTodos={setTodosFilteredTodayTodos}
-                  todosFilteredCompleted={todosFilteredCompleted}
+                  todosFilteredCompleted={todosFilteredCompleted as ('all' | 'completed' | 'uncompleted')}
                   setTodosFilteredCompleted={setTodosFilteredCompleted}
                 />
               </div>
